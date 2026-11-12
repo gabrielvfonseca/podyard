@@ -2,7 +2,7 @@ import { type SpawnSyncOptions, spawnSync } from "node:child_process";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 
-export const url = "https://github.com/vercel/next-forge";
+export const url = "https://github.com/vercel/podyard";
 
 export const cleanFileName = (file: string) =>
   file.replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/\\/g, "/");
@@ -53,7 +53,7 @@ export const allInternalContent = [
 
 export const semver = /^\d+\.\d+\.\d+$/;
 
-export const tempDirName = "next-forge-update";
+export const tempDirName = "podyard-update";
 
 export const getAvailableVersions = async (): Promise<string[]> => {
   const changelog = await readFile("CHANGELOG.md", "utf-8");

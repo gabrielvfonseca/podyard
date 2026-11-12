@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "next-forge",
+      "name": "podyard",
       "dependencies": {
         "@clack/prompts": "^1.1.0",
         "commander": "^14.0.3",

@@ -2,10 +2,10 @@
 
 ## Monorepo Structure
 
-next-forge uses Turborepo to manage a monorepo with apps and packages.
+podyard uses Turborepo to manage a monorepo with apps and packages.
 
 ```
-next-forge/
+podyard/
 ├── apps/
 │   ├── app/          # Main SaaS app (port 3000)
 │   ├── web/          # Marketing site (port 3001)

@@ -29,7 +29,7 @@ const supportedPackageManagers: PackageManagerName[] = [
   "pnpm",
 ];
 
-const cloneNextForge = (
+const clonePodyard = (
   name: string,
   packageManager: PackageManagerName,
   branch?: string
@@ -229,7 +229,7 @@ export const initialize = async (options: {
   branch?: string;
 }) => {
   try {
-    intro("Let's start a next-forge project!");
+    intro("Let's start a podyard project!");
 
     const cwd = process.cwd();
     const name = options.name || (await getName());
@@ -243,8 +243,8 @@ export const initialize = async (options: {
     const s = spinner();
     const projectDir = join(cwd, name);
 
-    s.start("Cloning next-forge...");
-    cloneNextForge(name, packageManager, options.branch);
+    s.start("Cloning podyard...");
+    clonePodyard(name, packageManager, options.branch);
 
     s.message("Moving into repository...");
     process.chdir(projectDir);

@@ -11,7 +11,7 @@
 ## Installation
 
 ```bash
-npx next-forge@latest init
+npx podyard@latest init
 ```
 
 The CLI prompts for:
@@ -75,7 +75,7 @@ Set in `packages/cms/.env.local`:
 BASEHUB_TOKEN="bshb_..."
 ```
 
-Fork the `basehub/next-forge` template in BaseHub, then generate a Read Token.
+Fork the `basehub/podyard` template in BaseHub, then generate a Read Token.
 
 ### Email (Resend)
 

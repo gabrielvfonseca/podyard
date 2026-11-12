@@ -1,16 +1,16 @@
 {
-  "name": "next-forge",
+  "name": "podyard",
   "version": "6.0.2",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vercel/next-forge.git"
+    "url": "git+https://github.com/vercel/podyard.git"
   },
   "publishConfig": {
     "provenance": true,
     "access": "public"
   },
   "bin": {
-    "next-forge": "dist/index.js"
+    "podyard": "dist/index.js"
   },
   "files": [
     "dist/index.js"
