@@ -1,41 +1,28 @@
-import { legal } from "@repo/cms";
 import { Status } from "@repo/observability/status";
 import Link from "next/link";
 import { env } from "@/env";
 
-export const Footer = async () => {
-  const legalPages = await legal.getPostsMeta();
+interface NavigationItem {
+  title: string;
+  description: string;
+  href?: string;
+  items?: { title: string; href: string }[];
+}
 
-  const navigationItems = [
+export const Footer = async () => {
+  const navigationItems: NavigationItem[] = [
     {
       title: "Home",
       href: "/",
       description: "",
     },
-    {
-      title: "Pages",
-      description: "Managing a small business today is already tough.",
-      items: [
-        {
-          title: "Blog",
-          href: "/blog",
-        },
-      ],
-    },
-    {
-      title: "Legal",
-      description: "We stay on top of the latest legal requirements.",
-      items: legalPages.map((post) => ({
-        title: post._title,
-        href: `/legal/${post._slug}`,
-      })),
-    },
   ];
 
   if (env.NEXT_PUBLIC_DOCS_URL) {
-    navigationItems.at(1)?.items?.push({
+    navigationItems.push({
       title: "Docs",
       href: env.NEXT_PUBLIC_DOCS_URL,
+      description: "",
     });
   }
 
