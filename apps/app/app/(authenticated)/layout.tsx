@@ -1,10 +1,11 @@
-import { auth, currentUser } from "@repo/auth/server";
+import { getSession } from "@repo/auth/server";
 import { SidebarProvider } from "@repo/design-system/components/ui/sidebar";
 import { showBetaFeature } from "@repo/feature-flags";
 import { secure } from "@repo/security";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 import { env } from "@/env";
-import { NotificationsProvider } from "./components/notifications-provider";
 import { GlobalSidebar } from "./components/sidebar";
 
 interface AppLayoutProperties {
@@ -16,27 +17,24 @@ const AppLayout = async ({ children }: AppLayoutProperties) => {
     await secure(["CATEGORY:PREVIEW"]);
   }
 
-  const user = await currentUser();
-  const { redirectToSignIn } = await auth();
+  const session = await getSession(await headers());
   const betaFeature = await showBetaFeature();
 
-  if (!user) {
-    return redirectToSignIn();
+  if (!session) {
+    redirect("/sign-in");
   }
 
   return (
-    <NotificationsProvider userId={user.id}>
-      <SidebarProvider>
-        <GlobalSidebar>
-          {betaFeature && (
-            <div className="m-4 rounded-full bg-blue-500 p-1.5 text-center text-sm text-white">
-              Beta feature now available
-            </div>
-          )}
-          {children}
-        </GlobalSidebar>
-      </SidebarProvider>
-    </NotificationsProvider>
+    <SidebarProvider>
+      <GlobalSidebar>
+        {betaFeature && (
+          <div className="m-4 rounded-full bg-blue-500 p-1.5 text-center text-sm text-white">
+            Beta feature now available
+          </div>
+        )}
+        {children}
+      </GlobalSidebar>
+    </SidebarProvider>
   );
 };
 

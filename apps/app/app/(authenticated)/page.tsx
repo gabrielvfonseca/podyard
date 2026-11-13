@@ -1,21 +1,12 @@
-import { auth } from "@repo/auth/server";
+import { getSession } from "@repo/auth/server";
 import { database } from "@repo/database";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
-import { env } from "@/env";
-import { AvatarStack } from "./components/avatar-stack";
-import { Cursors } from "./components/cursors";
 import { Header } from "./components/header";
 
 const title = "Acme Inc";
 const description = "My application.";
-
-const CollaborationProvider = dynamic(() =>
-  import("./components/collaboration-provider").then(
-    (mod) => mod.CollaborationProvider
-  )
-);
 
 export const metadata: Metadata = {
   title,
@@ -23,23 +14,16 @@ export const metadata: Metadata = {
 };
 
 const App = async () => {
+  const session = await getSession(await headers());
   const pages = await database.page.findMany();
-  const { orgId } = await auth();
 
-  if (!orgId) {
+  if (!session) {
     notFound();
   }
 
   return (
     <>
-      <Header page="Data Fetching" pages={["Building Your Application"]}>
-        {env.LIVEBLOCKS_SECRET && (
-          <CollaborationProvider orgId={orgId}>
-            <AvatarStack />
-            <Cursors />
-          </CollaborationProvider>
-        )}
-      </Header>
+      <Header page="Data Fetching" pages={["Building Your Application"]} />
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
         <div className="grid auto-rows-min gap-4 md:grid-cols-3">
           {pages.map((page) => (

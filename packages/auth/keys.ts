@@ -1,39 +1,22 @@
-import { createEnv } from "@t3-oss/env-nextjs";
+import { createEnv } from "@t3-oss/env-core";
 import { z } from "zod";
 
+/**
+ * Reusable env schema for Better Auth, meant to be extended by other
+ * packages/apps via `extends`. Exposes the raw schema so callers can
+ * `createEnv({ extends: [auth()] })`.
+ */
 export const keys = () =>
   createEnv({
     skipValidation: process.env.SKIP_ENV_VALIDATION === "true",
     server: {
-      CLERK_SECRET_KEY: z.string().startsWith("sk_").optional(),
-      CLERK_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
+      BETTER_AUTH_SECRET: z.string().min(1, "BETTER_AUTH_SECRET is required"),
+      BETTER_AUTH_URL: z.string().url(),
     },
-    client: {
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z
-        .string()
-        .startsWith("pk_")
-        .optional(),
-      NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().startsWith("/").optional(),
-      NEXT_PUBLIC_CLERK_SIGN_UP_URL: z.string().startsWith("/").optional(),
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL: z
-        .string()
-        .startsWith("/")
-        .optional(),
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL: z
-        .string()
-        .startsWith("/")
-        .optional(),
-    },
+    clientPrefix: "NEXT_PUBLIC_",
+    client: {},
     runtimeEnv: {
-      CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
-      CLERK_WEBHOOK_SECRET: process.env.CLERK_WEBHOOK_SECRET,
-      NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
-        process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
-      NEXT_PUBLIC_CLERK_SIGN_IN_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
-      NEXT_PUBLIC_CLERK_SIGN_UP_URL: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL:
-        process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL,
-      NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL:
-        process.env.NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL,
+      BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+      BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
     },
   });

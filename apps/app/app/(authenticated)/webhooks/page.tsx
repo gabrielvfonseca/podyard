@@ -1,4 +1,5 @@
 import { webhooks } from "@repo/webhooks";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
 export const metadata = {
@@ -7,7 +8,7 @@ export const metadata = {
 };
 
 const WebhooksPage = async () => {
-  const response = await webhooks.getAppPortal();
+  const response = await webhooks.getAppPortal(await headers());
 
   if (!response?.url) {
     notFound();

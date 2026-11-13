@@ -1,5 +1,6 @@
 import "./styles.css";
 import { AnalyticsProvider } from "@repo/analytics/provider";
+import { AuthProvider } from "@repo/auth/provider";
 import { DesignSystemProvider } from "@repo/design-system";
 import { fonts } from "@repo/design-system/lib/fonts";
 import { cn } from "@repo/design-system/lib/utils";
@@ -29,9 +30,11 @@ const RootLayout = async ({ children, params }: RootLayoutProperties) => {
       <body>
         <AnalyticsProvider>
           <DesignSystemProvider>
-            <Header dictionary={dictionary} />
-            {children}
-            <Footer />
+            <AuthProvider>
+              <Header dictionary={dictionary} />
+              {children}
+              <Footer />
+            </AuthProvider>
           </DesignSystemProvider>
           <Toolbar />
         </AnalyticsProvider>

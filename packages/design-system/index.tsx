@@ -1,26 +1,23 @@
-import { AuthProvider } from "@repo/auth/provider";
 import type { ThemeProviderProps } from "next-themes";
 import { Toaster } from "./components/ui/sonner";
 import { TooltipProvider } from "./components/ui/tooltip";
 import { ThemeProvider } from "./providers/theme";
 
 type DesignSystemProviderProperties = ThemeProviderProps & {
+  /** Optional metadata URLs surfaced by the app shell. */
+  helpUrl?: string;
   privacyUrl?: string;
   termsUrl?: string;
-  helpUrl?: string;
 };
 
 export const DesignSystemProvider = ({
   children,
-  privacyUrl,
-  termsUrl,
-  helpUrl,
+  // helpUrl, privacyUrl, termsUrl are accepted for app-shell metadata
+  // but are not forwarded to the theme provider today.
   ...properties
 }: DesignSystemProviderProperties) => (
   <ThemeProvider {...properties}>
-    <AuthProvider helpUrl={helpUrl} privacyUrl={privacyUrl} termsUrl={termsUrl}>
-      <TooltipProvider>{children}</TooltipProvider>
-      <Toaster />
-    </AuthProvider>
+    <TooltipProvider>{children}</TooltipProvider>
+    <Toaster />
   </ThemeProvider>
 );

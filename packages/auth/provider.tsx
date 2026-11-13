@@ -1,58 +1,62 @@
 "use client";
 
-import { ClerkProvider } from "@clerk/nextjs";
-import { dark } from "@clerk/themes";
-import type { Theme } from "@clerk/types";
-import { useTheme } from "next-themes";
-import type { ComponentProps } from "react";
+import { createContext, useContext, type ReactNode } from "react";
+import { signOut, useSession } from "./client";
 
-type AuthProviderProperties = ComponentProps<typeof ClerkProvider> & {
-  privacyUrl?: string;
-  termsUrl?: string;
-  helpUrl?: string;
+type SessionUser = {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  image?: string | null;
 };
 
-export const AuthProvider = ({
-  privacyUrl,
-  termsUrl,
-  helpUrl,
-  ...properties
-}: AuthProviderProperties) => {
-  const { resolvedTheme } = useTheme();
-  const isDark = resolvedTheme === "dark";
-  const baseTheme = isDark ? dark : undefined;
-
-  const variables: Theme["variables"] = {
-    fontFamily: "var(--font-sans)",
-    fontFamilyButtons: "var(--font-sans)",
-    fontWeight: {
-      bold: "var(--font-weight-bold)",
-      normal: "var(--font-weight-normal)",
-      medium: "var(--font-weight-medium)",
-    },
+type SessionData = {
+  user: SessionUser;
+  session: {
+    id: string;
+    userId: string;
+    token: string;
+    expiresAt: Date;
   };
+};
 
-  const elements: Theme["elements"] = {
-    dividerLine: "bg-border",
-    socialButtonsIconButton: "bg-card",
-    navbarButton: "text-foreground",
-    organizationSwitcherTrigger__open: "bg-background",
-    organizationPreviewMainIdentifier: "text-foreground",
-    organizationSwitcherTriggerIcon: "text-muted-foreground",
-    organizationPreview__organizationSwitcherTrigger: "gap-2",
-    organizationPreviewAvatarContainer: "shrink-0",
-  };
+interface AuthContextValue {
+  /** Current session, or null when signed out. */
+  data: SessionData | null;
+  user: SessionUser | null;
+  isPending: boolean;
+  error: unknown;
+  signOut: () => Promise<unknown>;
+}
 
-  const layout: Theme["layout"] = {
-    privacyPageUrl: privacyUrl,
-    termsPageUrl: termsUrl,
-    helpPageUrl: helpUrl,
-  };
+const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
+  const { data, isPending, error } = useSession();
 
   return (
-    <ClerkProvider
-      {...properties}
-      appearance={{ layout, baseTheme, elements, variables }}
-    />
+    <AuthContext.Provider
+      value={{
+        data,
+        user: data?.user ?? null,
+        isPending,
+        error,
+        signOut,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
   );
+};
+
+/**
+ * Hook for consuming the auth context from anywhere under an AuthProvider.
+ */
+export const useAuth = (): AuthContextValue => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+  return context;
 };
