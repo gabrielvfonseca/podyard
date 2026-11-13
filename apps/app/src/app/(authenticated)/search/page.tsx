@@ -1,5 +1,6 @@
 import { getSession } from "@podyard/auth/server";
-import { database } from "@podyard/database";
+import { database, page } from "@podyard/database";
+import { like } from "drizzle-orm";
 import { headers } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { Header } from "../components/header";
@@ -23,13 +24,10 @@ export const generateMetadata = async ({
 
 const SearchPage = async ({ searchParams }: SearchPageProperties) => {
   const { q } = await searchParams;
-  const pages = await database.page.findMany({
-    where: {
-      name: {
-        contains: q,
-      },
-    },
-  });
+  const pages = await database
+    .select()
+    .from(page)
+    .where(like(page.name, `%${q}%`));
   const session = await getSession(await headers());
 
   if (!session) {

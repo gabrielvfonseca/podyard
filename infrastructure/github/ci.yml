@@ -52,11 +52,8 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      - name: Generate Prisma client
-        run: cd packages/database && bunx prisma generate --no-hints
-
-      - name: Push Prisma schema
-        run: cd packages/database && bunx prisma db push --skip-generate
+      - name: Push Drizzle schema
+        run: cd packages/database && bunx drizzle-kit push
 
       - name: Typecheck
         run: bunx turbo run typecheck

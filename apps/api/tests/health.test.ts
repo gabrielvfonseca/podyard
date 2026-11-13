@@ -4,14 +4,16 @@ import { app } from "../src/app";
 // Mock the database to avoid server-only import issues
 vi.mock("@podyard/database", () => ({
   database: {
-    page: {
-      create: vi.fn().mockResolvedValue({ id: 1 }),
-      delete: vi.fn().mockResolvedValue({}),
-    },
-    user: {
-      findFirst: vi.fn().mockResolvedValue(null),
-    },
+    select: vi.fn().mockReturnThis(),
+    from: vi.fn().mockReturnThis(),
+    where: vi.fn().mockReturnThis(),
+    limit: vi.fn().mockResolvedValue([]),
+    insert: vi.fn().mockReturnThis(),
+    values: vi.fn().mockReturnThis(),
+    returning: vi.fn().mockResolvedValue([{ id: 1 }]),
+    delete: vi.fn().mockReturnThis(),
   },
+  schema: {},
 }));
 
 // Mock the analytics server

@@ -1,5 +1,5 @@
 import { getSession } from "@podyard/auth/server";
-import { database } from "@podyard/database";
+import { database, page } from "@podyard/database";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 const App = async () => {
   const session = await getSession(await headers());
-  const pages = await database.page.findMany();
+  const pages = await database.select().from(page);
 
   if (!session) {
     notFound();

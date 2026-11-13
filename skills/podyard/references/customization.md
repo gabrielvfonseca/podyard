@@ -6,21 +6,21 @@ podyard is designed to be modular. Each integration can be replaced by modifying
 
 ### Database / ORM
 
-**Default**: Prisma + Neon PostgreSQL
+**Default**: Drizzle + Neon PostgreSQL
 
 **Alternatives**:
-- **Drizzle** — Replace Prisma schema with Drizzle schema definitions. Update `@podyard/database` exports to use Drizzle client.
-- **PlanetScale** — Change the Prisma datasource provider or use PlanetScale's serverless driver.
+- **Prisma** — Replace the Drizzle schema with a Prisma schema and use the Prisma client in `@podyard/database`.
+- **PlanetScale** — Use PlanetScale's serverless driver with Drizzle.
 - **Supabase** — Use Supabase's PostgreSQL connection string as `DATABASE_URL`, or swap to the Supabase client SDK.
-- **Turso** — Use Turso's libSQL adapter with Prisma or Drizzle.
-- **EdgeDB** — Replace Prisma with EdgeDB's schema and query builder.
+- **Turso** — Use Turso's libSQL adapter with Drizzle.
+- **EdgeDB** — Replace Drizzle with EdgeDB's schema and query builder.
 - **Prisma Postgres** — Use Prisma's managed PostgreSQL service.
 
 To swap: update `packages/database/`, change the client export, and update `DATABASE_URL`.
 
 ### Authentication
 
-**Default**: Clerk
+**Default**: Better Auth
 
 **Alternatives**:
 - **Supabase Auth** — Replace `@podyard/auth` with Supabase Auth client. Update middleware and session handling.

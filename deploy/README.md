@@ -1,41 +1,38 @@
-# Deploy
+# Deployment infrastructure
 
-Programmatic Vercel deploy tooling for podyard.
+Infrastructure and deployment scripts (not a TypeScript package).
 
-The **default** deploy path is Vercel's GitHub integration (push to `main` →
-auto-deploy). This directory provides a CLI wrapper for CI jobs that want to
-trigger deploys explicitly, and documentation of the project map.
+## Targets
+
+- **Vercel**: Next.js apps in `apps/app`, `apps/web`, `apps/api`, `apps/docs`
+- **Cloudflare**: Worker in `apps/worker` (`deploy/cloudflare`)
+- **Fly.io**: container workloads (`deploy/fly`)
+
+## Layout
+
+```
+deploy/
+  vercel/        # Vercel project/deploy scripts and env notes
+  cloudflare/    # Cloudflare deployment helpers/notes
+  fly/           # Fly.io deployment helpers/notes
+```
 
 ## Usage
 
+Vercel deploy (CI/manual):
+
 ```bash
-# From the repo root, after `bun install`:
-VERCEL_TOKEN=... bun deploy.ts web --prod
-VERCEL_TOKEN=... bun deploy.ts app          # preview deployment
+VERCEL_TOKEN=... bun deploy/vercel/deploy.ts web --prod
 ```
 
-Supported projects: `app`, `web`, `api`, `docs`.
+Cloudflare worker:
 
-The script shells out to `bunx vercel deploy` with the project's root dir as
-`--cwd`, so no additional configuration is needed.
+```bash
+cd apps/worker && bun run deploy
+```
 
-## Project map
+Fly.io:
 
-| Project | Root dir   | Dev port |
-| ------- | ---------- | -------- |
-| app     | `apps/app` | 3000     |
-| web     | `apps/web` | 3001     |
-| api     | `apps/api` | 3002     |
-| docs    | `apps/docs`| 3003     |
-
-## Environment variables
-
-| Variable | Required | Purpose |
-| -------- | -------- | ------- |
-| `VERCEL_TOKEN` | yes | Auth for the Vercel CLI |
-| `VERCEL_ORG_ID` | no | Scopes the deploy to an org (auto-detected otherwise) |
-
-## CI
-
-`infrastructure/github/deploy.yml` runs this script on `workflow_dispatch`
-with a `project` + `target` (production / preview) input.
+```bash
+fly deploy -c deploy/fly/fly.toml
+```

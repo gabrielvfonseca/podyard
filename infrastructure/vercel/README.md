@@ -8,7 +8,7 @@ the environment variable matrix.
 
 | Vercel project | Root dir   | Dev URL convention | Notes |
 | -------------- | ---------- | ------------------ | ----- |
-| `podyard-app`  | `apps/app` | `*.podyard.app`    | Authenticated product; Clerk; Liveblocks (removed) |
+| `podyard-app`  | `apps/app` | `*.podyard.app`    | Authenticated product; Liveblocks (removed) |
 | `podyard-web`  | `apps/web` | `*.podyard.com`    | Marketing site; CMS (removed); arcjet |
 | `podyard-api`  | `apps/api` | `api.podyard.com`  | API routes, Stripe webhooks, cron keep-alive |
 | `podyard-docs` | `apps/docs`| `docs.podyard.com` | fumadocs |
@@ -45,11 +45,8 @@ The table below is the canonical list (sourced from each app's `env.ts` and
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
 | `DATABASE_URL` | yes | Neon/Postgres connection string |
-| `CLERK_SECRET_KEY` | yes | Clerk secret key |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | yes | Clerk publishable key |
-| `CLERK_SIGN_IN_URL` | no | Override sign-in URL |
-| `CLERK_AFTER_SIGN_IN_URL` | no | Redirect after sign-in |
-| `CLERK_AFTER_SIGN_UP_URL` | no | Redirect after sign-up |
+| `BETTER_AUTH_SECRET` | yes | Better Auth secret |
+| `BETTER_AUTH_URL` | yes | Better Auth base URL |
 | `ARCJET_KEY` | no | Arcjet keybot detection (enables `secure()`) |
 | `UPSTASH_REDIS_REST_URL` | no | Rate limiting / flags |
 | `UPSTASH_REDIS_REST_TOKEN` | no | Rate limiting / flags |
@@ -69,8 +66,8 @@ The table below is the canonical list (sourced from each app's `env.ts` and
 | Variable | Required | Description |
 | -------- | -------- | ----------- |
 | `DATABASE_URL` | yes | Neon/Postgres connection string |
-| `CLERK_SECRET_KEY` | yes | Clerk secret key |
-| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | yes | Clerk publishable key |
+| `BETTER_AUTH_SECRET` | yes | Better Auth secret |
+| `BETTER_AUTH_URL` | yes | Better Auth base URL |
 | `STRIPE_SECRET_KEY` | yes | Stripe API key |
 | `STRIPE_WEBHOOK_SECRET` | yes | `whsec_...` from Stripe dashboard |
 | `UPSTASH_REDIS_REST_URL` | no | Rate limiting / feature flags |

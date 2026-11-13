@@ -3,6 +3,6 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "prisma.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "drizzle.config.ts"],
   "exclude": ["node_modules"]
 }

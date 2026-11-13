@@ -47,14 +47,14 @@ NEXT_PUBLIC_DOCS_URL="http://localhost:3004"
 
 All integrations below are optional. If the corresponding environment variable is not set, the feature is disabled gracefully.
 
-### Authentication (Clerk)
+### Authentication (Better Auth)
 
 Set in `apps/app/.env.local`:
 
 ```bash
-CLERK_SECRET_KEY="sk_test_..."
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY="pk_test_..."
-CLERK_WEBHOOK_SECRET="whsec_..."
+BETTER_AUTH_SECRET="..."
+BETTER_AUTH_URL="http://localhost:3000"
+
 ```
 
 ### Payments (Stripe)
@@ -169,14 +169,13 @@ After setting `DATABASE_URL`, push the schema to the database:
 bun run migrate
 ```
 
-This runs three Prisma commands in sequence:
-1. `prisma format` — formats the schema file
-2. `prisma generate` — generates the Prisma client
-3. `prisma db push` — pushes the schema to the database
+This runs the Drizzle migration workflow:
+1. `drizzle-kit generate` — generate SQL from `src/schema.ts`
+2. `drizzle-kit migrate` — apply the migrations to the database
 
-The schema lives at `packages/database/prisma/schema.prisma`. Edit it, then run `bun run migrate` again after changes.
+The schema lives at `packages/database/src/schema.ts`. Edit it, then run `bun run migrate` again after changes.
 
-Browse the database visually with Prisma Studio:
+Browse the database visually with Drizzle Studio:
 
 ```bash
 bun dev --filter studio

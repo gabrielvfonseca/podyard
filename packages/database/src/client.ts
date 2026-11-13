@@ -1,17 +1,30 @@
 import { neonConfig } from "@neondatabase/serverless";
-import { PrismaNeon } from "@prisma/adapter-neon";
-import ws from "ws";
-import { PrismaClient } from "../generated/client";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import "server-only";
+import { WebSocket } from "ws";
 import { keys } from "./keys";
+import { account, page, session, user, verification } from "./schema";
 
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
+export const schema = {
+  user,
+  session,
+  account,
+  verification,
+  page,
+};
 
-neonConfig.webSocketConstructor = ws;
+// Use a real WebSocket implementation (from `ws`) for the serverless driver's
+// WebSocket transport, matching how the old Prisma client configured Neon.
+neonConfig.webSocketConstructor = WebSocket;
 
-const adapter = new PrismaNeon({ connectionString: keys().DATABASE_URL });
+const createDatabase = () => drizzle(keys().DATABASE_URL ?? "", { schema });
 
-export const database = globalForPrisma.prisma || new PrismaClient({ adapter });
+type Database = ReturnType<typeof createDatabase>;
+
+const globalForDb = global as unknown as { database?: Database };
+
+export const database = globalForDb.database ?? createDatabase();
 
 if (process.env.NODE_ENV !== "production") {
-  globalForPrisma.prisma = database;
+  globalForDb.database = database;
 }

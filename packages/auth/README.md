@@ -5,7 +5,7 @@ Better Auth integration for Podyard.
 ## Overview
 
 - Source: `src/`
-- Server auth instance (Prisma adapter), browser client, React auth provider/components, env keys, and Hono/Next auth helpers
+- Server auth instance (Drizzle adapter), browser client, React auth provider/components, env keys, and Hono/Next auth helpers
 - Uses Better Auth (not Clerk)
 
 ## Key modules

@@ -1,18 +1,19 @@
 import { analytics } from "@podyard/analytics/server";
-import { database } from "@podyard/database";
+import { database, user as users } from "@podyard/database";
 import { log } from "@podyard/observability/log";
 import { stripe } from "@podyard/payments";
+import { eq } from "drizzle-orm";
 import type { Context } from "hono";
 import type Stripe from "stripe";
 import { env } from "@/env";
 
 const getUserFromCustomerId = async (customerId: string) => {
   // With Better Auth, we query the database directly
-  const user = await database.user.findFirst({
-    where: {
-      stripeCustomerId: customerId,
-    },
-  });
+  const [user] = await database
+    .select()
+    .from(users)
+    .where(eq(users.stripeCustomerId, customerId))
+    .limit(1);
 
   return user;
 };

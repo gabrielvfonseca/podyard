@@ -5,14 +5,14 @@ description: Better Auth endpoints mounted on the Hono API.
 
 ## `/api/auth/*`
 
-[Better Auth](https://better-auth.com) is mounted at `/api/auth` on the Hono API. All standard Better Auth endpoints are available under this prefix, using the email + password provider and the Prisma (PostgreSQL) adapter.
+[Better Auth](https://better-auth.com) is mounted at `/api/auth` on the Hono API. All standard Better Auth endpoints are available under this prefix, using the email + password provider and the Drizzle (PostgreSQL) adapter.
 
 ### Configuration
 
 | Setting | Value |
 | --- | --- |
 | Provider | `emailAndPassword` |
-| Adapter | Prisma (PostgreSQL) |
+| Adapter | Drizzle (PostgreSQL) |
 | Session cache | cookie, `maxAge` 30 minutes |
 | Trusted origins | `BETTER_AUTH_URL` |
 

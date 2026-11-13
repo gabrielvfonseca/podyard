@@ -12,39 +12,26 @@ infrastructure/
 │   ├── README.md          # GitHub Actions docs
 │   ├── ci.yml             # Install · typecheck · lint · test · build
 │   ├── e2e.yml            # Playwright suite (e2e/) against live apps
-│   └── deploy.yml         # Manual `vercel deploy` (workflow_dispatch)
+│   └── deploy.yml         # Manual deploy workflow (workflow_dispatch)
 └── docker/
-    ├── Dockerfile         # Multi-app Next.js build image (ARG APP_DIR)
-    └── docker-compose.yml # Local parity stack (app, web, api + Postgres)
+    ├── Dockerfile         # Multi-app build image (ARG APP_DIR)
+    └── docker-compose.yml # Local parity stack
 ```
 
-## Vercel (primary target)
+## Deployment targets
 
-All Next.js apps deploy directly to Vercel:
+- **Vercel**: `apps/app`, `apps/web`, `apps/api`, `apps/docs` (see `deploy/vercel/`)
+- **Cloudflare**: `apps/worker` (see `deploy/cloudflare/`, `wrangler.toml` in app)
+- **Fly.io**: containerized workloads via `deploy/fly/fly.toml` and `infrastructure/docker/Dockerfile`
 
-| Project   | Source      | Framework | Port (dev) |
-| --------- | ----------- | --------- | ---------- |
-| `app`     | `apps/app`  | Next.js   | 3000       |
-| `web`     | `apps/web`  | Next.js   | 3001       |
-| `api`     | `apps/api`  | Next.js   | 3002       |
-| `docs`    | `apps/docs` | Next.js   | 3003       |
-| `studio`  | (n/a)       | Prisma Studio (CLI) | 3005 |
-
-Each app carries its own `vercel.json` (bun runtime, cron jobs, `[skip ci]`
-ignore command). Cross-project env vars are managed in the Vercel dashboard;
-see `vercel/README.md` for the full matrix.
+`deploy/` contains the executable deployment scripts/helpers (not a TS package).
 
 ## GitHub Actions
 
-See `github/README.md` for the CI pipeline:
-
-- **CI** (`ci.yml`) — install, typecheck, lint, unit tests, build
-- **E2E** (`e2e.yml`) — Playwright suite in `e2e/` on pull requests
-- **Deploy** — Vercel's GitHub integration handles deploys; a `deploy.yml`
-  template is provided for teams that prefer `vercel deploy` via CLI
+- **CI** (`ci.yml`) — install, typecheck, lint, tests, build
+- **E2E** (`e2e.yml`) — Playwright suite in `e2e/`
+- **Deploy** (`deploy.yml`) — manual Vercel deploy via `deploy/vercel/deploy.ts`
 
 ## Docker
 
-`docker/` contains a Dockerfile and compose file that mirror the Vercel build
-so the apps can run in any container runtime (local, E2E workers, air-gapped
-environments). The Vercel platform remains the source of truth for production.
+`docker/` mirrors a container build for local/E2E/Fly usage. Vercel remains the source of truth for hosted Next.js production deploys.

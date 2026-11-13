@@ -13,15 +13,15 @@ podyard/
 │   ├── email/        # Email preview (port 3003)
 │   ├── docs/         # Documentation (port 3004)
 │   ├── storybook/    # Component workshop (port 6006)
-│   └── studio/       # Prisma Studio (port 3005)
+│   └── studio/       # Drizzle Studio (port 3005)
 ├── packages/
 │   ├── ai/                    # AI/LLM integration
 │   ├── analytics/             # PostHog, Google Analytics, Vercel Analytics
-│   ├── auth/                  # Clerk authentication
+│   ├── auth/                  # Better Auth authentication
 │   ├── cms/                   # BaseHub CMS
 │   ├── collaboration/         # Liveblocks real-time features
 │   ├── cron/                  # Vercel cron jobs
-│   ├── database/              # Prisma + Neon PostgreSQL
+│   ├── database/              # Drizzle + Neon PostgreSQL
 │   ├── design-system/         # shadcn/ui component library
 │   ├── email/                 # Resend + React Email
 │   ├── feature-flags/         # Vercel Flags SDK + PostHog
@@ -35,7 +35,7 @@ podyard/
 │   ├── seo/                   # Metadata, sitemap, JSON-LD
 │   ├── storage/               # Vercel Blob
 │   ├── typescript-config/     # Shared TS configs
-│   └── webhooks/              # Svix outbound + Stripe/Clerk inbound
+│   └── webhooks/              # Svix outbound + Stripe/auth inbound
 ├── turbo.json
 └── package.json
 ```
@@ -43,13 +43,13 @@ podyard/
 ## Apps
 
 ### app (Port 3000)
-The main user-facing SaaS application. Includes authentication via Clerk, database access via Prisma, collaboration features via Liveblocks, and notification feeds via Knock. Contains authenticated route layouts with security middleware.
+The main user-facing SaaS application. Includes authentication via Better Auth, database access via Drizzle, collaboration features via Liveblocks, and notification feeds via Knock. Contains authenticated route layouts with security middleware.
 
 ### web (Port 3001)
 The marketing website. Integrates BaseHub CMS for blog posts and content, SEO optimization with metadata and sitemap generation, analytics tracking, and internationalization support.
 
 ### api (Port 3002)
-Serverless API endpoints for webhooks (Stripe, Clerk), cron jobs, and any dedicated API routes. Deployed as a separate Vercel project.
+Serverless API endpoints for webhooks (Stripe, auth), cron jobs, and any dedicated API routes. Deployed as a separate Vercel project.
 
 ### email (Port 3003)
 React Email preview server for developing and testing email templates. Templates are React components in the `@podyard/email` package.
@@ -61,7 +61,7 @@ Documentation site built with Mintlify. Requires the Mintlify CLI for local prev
 Storybook instance for previewing and testing design system components in isolation.
 
 ### studio (Port 3005)
-Prisma Studio provides a visual interface for browsing and editing database records.
+Drizzle Studio provides a visual interface for browsing and editing database records.
 
 ## Package Naming
 
@@ -129,4 +129,4 @@ bun build --filter @podyard/database  # Only the database package
 - `.next/` — Next.js build output (per app)
 - `storybook-static/` — Storybook static export
 - `.react-email/` — Compiled email templates
-- `**/generated/**` — Auto-generated files (Prisma client, BaseHub SDK)
+- `**/generated/**` — Auto-generated files (BaseHub SDK, etc.)

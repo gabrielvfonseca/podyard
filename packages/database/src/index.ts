@@ -1,3 +1,3 @@
-export * from "../generated/client";
-export { database } from "./client";
+export { database, schema } from "./client";
 export { keys } from "./keys";
+export * from "./schema";

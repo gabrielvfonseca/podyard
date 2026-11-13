@@ -63,11 +63,8 @@ jobs:
         working-directory: e2e
         run: bunx playwright install --with-deps
 
-      - name: Generate Prisma client
-        run: cd packages/database && bunx prisma generate --no-hints
-
-      - name: Push Prisma schema
-        run: cd packages/database && bunx prisma db push --skip-generate
+      - name: Push Drizzle schema
+        run: cd packages/database && bunx drizzle-kit push
 
       - name: Build all apps
         run: bun build

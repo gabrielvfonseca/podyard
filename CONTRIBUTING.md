@@ -33,7 +33,7 @@ bun install
    ```
 
 3. If your change touches `packages/database`, run `bun run migrate` so the
-   Prisma schema, generated client, and migrations stay in sync.
+   Drizzle schema and migrations stay in sync.
 
 ## Conventions
 

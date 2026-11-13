@@ -38,7 +38,7 @@ The monorepo contains apps and packages. Apps are deployable applications. Packa
 | `email` | 3003 | React Email preview server |
 | `docs` | 3004 | Documentation site (Mintlify) |
 | `storybook` | 6006 | Design system component workshop |
-| `studio` | 3005 | Prisma Studio for database editing |
+| `studio` | 3005 | Drizzle Studio for database editing |
 
 **Core Packages**: `auth`, `database`, `payments`, `email`, `cms`, `design-system`, `analytics`, `observability`, `security`, `storage`, `seo`, `feature-flags`, `internationalization`, `webhooks`, `cron`, `notifications`, `collaboration`, `ai`, `rate-limit`, `next-config`, `typescript-config`.
 
@@ -50,7 +50,7 @@ For detailed structure, see `references/architecture.md`.
 
 Environment variable files live alongside apps and packages:
 
-- `apps/app/.env.local` — Main app keys (Clerk, Stripe, etc.)
+- `apps/app/.env.local` — Main app keys (Better Auth, Stripe, etc.)
 - `apps/web/.env.local` — Marketing site keys
 - `apps/api/.env.local` — API keys
 - `packages/database/.env` — `DATABASE_URL` (required)
@@ -90,13 +90,14 @@ bun dev --filter web         # Marketing site (port 3001)
 
 ### Database Migrations
 
-After changing `packages/database/prisma/schema.prisma`:
+After changing `packages/database/src/schema.ts`:
 
 ```bash
 bun run migrate
 ```
 
-This runs Prisma format, generate, and db push in sequence.
+This generates a Drizzle migration and applies it to the database. Use
+`bun run db:push` to push the schema directly during prototyping.
 
 ### Adding shadcn/ui Components
 

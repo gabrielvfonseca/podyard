@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@better-auth/drizzle-adapter": "1.7.22",
     "@hono/node-server": "^1.14.0",
     "@podyard/analytics": "workspace:*",
     "@podyard/auth": "workspace:*",
@@ -21,6 +22,7 @@
     "@t3-oss/env-core": "^0.13.11",
     "@t3-oss/env-nextjs": "^0.13.10",
     "better-auth": "^1.3.0",
+    "drizzle-orm": "^0.45.4",
     "hono": "^4.6.0",
     "stripe": "^17.0.0",
     "zod": "^4.3.6"

@@ -7,7 +7,7 @@ const API = "http://localhost:3002";
 test.describe("app", () => {
   test("unauthenticated load does not 5xx", async ({ page }) => {
     const response = await page.goto(`${APP}/`);
-    // Unauthenticated visitors are redirected to Clerk sign-in or shown a
+    // Unauthenticated visitors are redirected to sign-in or shown a
     // landing page — never a server error.
     expect(response?.status()).toBeLessThan(500);
   });

@@ -59,10 +59,9 @@ jobs:
         run: bun install
 
       - name: Deploy to Vercel
-        working-directory: apps/${{ inputs.project }}
         run: |
           if [ "${{ inputs.target }}" = "production" ]; then
-            npx vercel deploy --prod --yes
+            bun deploy/vercel/deploy.ts "${{ inputs.project }}" --prod
           else
-            npx vercel deploy --yes
+            bun deploy/vercel/deploy.ts "${{ inputs.project }}"
           fi

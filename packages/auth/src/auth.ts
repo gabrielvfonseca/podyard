@@ -1,10 +1,14 @@
-import { prismaAdapter } from "@better-auth/prisma-adapter";
-import { database } from "@podyard/database";
+import { drizzleAdapter } from "@better-auth/drizzle-adapter";
+import { database, schema } from "@podyard/database";
 import { betterAuth } from "better-auth";
 import { env } from "./env";
 
 export const auth = betterAuth({
-  database: prismaAdapter(database, { provider: "postgresql" }),
+  database: drizzleAdapter(database, {
+    provider: "pg",
+    schema,
+    camelCase: true,
+  }),
   secret: env.BETTER_AUTH_SECRET,
   baseURL: env.BETTER_AUTH_URL,
   emailAndPassword: {

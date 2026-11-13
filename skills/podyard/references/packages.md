@@ -4,36 +4,38 @@ All packages live in `/packages/` and are imported as `@podyard/<name>`.
 
 ## Authentication (`@podyard/auth`)
 
-**Provider**: Clerk
+**Provider**: Better Auth
 
 Handles user authentication, organization management, and session handling.
 
 **Key exports**:
 - `AuthProvider` — wrapped inside `DesignSystemProvider`
-- Pre-built Clerk components: `<OrganizationSwitcher>`, `<UserButton>`, `<SignIn>`, `<SignUp>`
+- Auth components: `<SignIn>`, `<SignUp>`, `<UserButton>`, `<OrganizationSwitcher>` (stub)
 
-**Webhooks**: Clerk sends user lifecycle events to `POST /api/webhooks/auth` (handled in the `api` app). Events include user creation, updates, and deletion.
+**Webhooks**: Auth lifecycle events can be posted to `POST /api/webhooks/auth` (handled in the `api` app).
 
 **Swappable to**: Supabase Auth, Auth.js, Better Auth.
 
 ## Database (`@podyard/database`)
 
-**ORM**: Prisma
+**ORM**: Drizzle
 **Default provider**: Neon PostgreSQL
 
 **Key exports**:
-- `database` — Prisma client instance
+- `database` — Drizzle client instance
+- `schema` — Drizzle table definitions
 
 **Usage**:
 ```typescript
-import { database } from '@podyard/database';
-const users = await database.user.findMany();
+import { database, user } from '@podyard/database';
+import { eq } from 'drizzle-orm';
+const users = await database.select().from(user).where(eq(user.id, id));
 ```
 
-**Schema**: `packages/database/prisma/schema.prisma`
-**Migrations**: `bun run migrate` (format → generate → db push)
+**Schema**: `packages/database/src/schema.ts`
+**Migrations**: `bun run migrate` (generate → migrate)
 
-**Swappable to**: Drizzle, PlanetScale, Supabase, Turso, EdgeDB, Prisma Postgres.
+**Swappable to**: PlanetScale, Supabase, Turso, EdgeDB, Prisma Postgres.
 
 ## Payments (`@podyard/payments`)
 
@@ -227,7 +229,7 @@ const dict = await getDictionary(locale);
 
 ### Inbound
 - **Stripe**: `POST /api/webhooks/payments` — payment and subscription events
-- **Clerk**: `POST /api/webhooks/auth` — user lifecycle events
+- **Auth**: `POST /api/webhooks/auth` — user lifecycle events
 - **Local testing**: Stripe CLI auto-forwards to localhost
 
 ### Outbound
@@ -289,8 +291,8 @@ Rate limiting utilities used in conjunction with `@podyard/security` for request
 
 Shared Next.js configuration applied across apps:
 - Image optimization (AVIF, WebP)
-- Clerk image domain patterns
-- Prisma webpack plugin for monorepo builds
+- Auth-related image domain patterns (if configured)
+- Drizzle ORM webpack compatibility for monorepo builds
 - PostHog reverse proxy rewrites (`/ingest/*`)
 - OpenTelemetry webpack compatibility fix
 - Bundle analyzer support
