@@ -2,7 +2,7 @@ import { expect, test, vi } from "vitest";
 import { app } from "../app";
 
 // Mock the database to avoid server-only import issues
-vi.mock("@repo/database", () => ({
+vi.mock("@podyard/database", () => ({
   database: {
     page: {
       create: vi.fn().mockResolvedValue({ id: 1 }),
@@ -15,12 +15,12 @@ vi.mock("@repo/database", () => ({
 }));
 
 // Mock the analytics server
-vi.mock("@repo/analytics/server", () => ({
+vi.mock("@podyard/analytics/server", () => ({
   analytics: undefined,
 }));
 
 // Mock the payments
-vi.mock("@repo/payments", () => ({
+vi.mock("@podyard/payments", () => ({
   stripe: undefined,
 }));
 

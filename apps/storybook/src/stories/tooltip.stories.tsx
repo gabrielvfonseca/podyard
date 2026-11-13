@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@repo/design-system/components/ui/tooltip";
+} from "@podyard/design-system/components/ui/tooltip";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Plus } from "lucide-react";
 

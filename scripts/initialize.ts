@@ -88,7 +88,7 @@ const setupEnvironmentVariables = async () => {
 const setupOrm = (packageManager: PackageManagerName) => {
   const filterCommand = packageManager === "npm" ? "--workspace" : "--filter";
 
-  run(packageManager, ["run", "build", filterCommand, "@repo/database"]);
+  run(packageManager, ["run", "build", filterCommand, "@podyard/database"]);
 };
 
 const updatePackageManagerConfiguration = async (

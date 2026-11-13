@@ -11,11 +11,11 @@
     "prefix": ""
   },
   "aliases": {
-    "components": "@repo/design-system/components",
-    "utils": "@repo/design-system/lib/utils",
-    "hooks": "@repo/design-system/hooks",
-    "lib": "@repo/design-system/lib",
-    "ui": "@repo/design-system/components/ui"
+    "components": "@podyard/design-system/components",
+    "utils": "@podyard/design-system/lib/utils",
+    "hooks": "@podyard/design-system/hooks",
+    "lib": "@podyard/design-system/lib",
+    "ui": "@podyard/design-system/components/ui"
   },
   "iconLibrary": "lucide"
 }

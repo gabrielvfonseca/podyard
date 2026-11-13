@@ -2,7 +2,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@repo/design-system/components/ui/avatar";
+} from "@podyard/design-system/components/ui/avatar";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

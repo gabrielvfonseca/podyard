@@ -1,4 +1,4 @@
-import { Toaster } from "@repo/design-system/components/ui/sonner";
+import { Toaster } from "@podyard/design-system/components/ui/sonner";
 import type { Meta, StoryObj } from "@storybook/react";
 import { toast } from "sonner";
 import { action } from "storybook/actions";

@@ -1,0 +1,71 @@
+---
+title: Quickstart
+description: Clone Podyard, set up environment variables, and run the API, web app, and docs locally.
+---
+
+## Prerequisites
+
+- [Bun](https://bun.sh) 1.x
+- A PostgreSQL database (local or [Neon](https://neon.tech))
+- Stripe account (optional — only needed for payments)
+
+## 1. Install dependencies
+
+```bash
+bun install
+```
+
+## 2. Generate the Prisma client
+
+```bash
+cd packages/database
+bun run db:generate
+```
+
+## 3. Configure environment variables
+
+Each app reads its own `.env`. Copy the example files and fill in the values:
+
+```bash
+cp apps/api/.env.example apps/api/.env
+cp apps/web/.env.example apps/web/.env
+cp packages/database/.env.example packages/database/.env
+```
+
+Key variables:
+
+| Variable | Used by | Description |
+| --- | --- | --- |
+| `DATABASE_URL` | `packages/database` | PostgreSQL connection string |
+| `BETTER_AUTH_SECRET` | `packages/auth` | Auth secret. Generate with `openssl rand -base64 32` |
+| `BETTER_AUTH_URL` | `packages/auth`, `apps/api` | Public URL of the API, e.g. `http://localhost:3002` |
+| `NEXT_PUBLIC_BETTER_AUTH_URL` | `apps/web` | Same URL, exposed to the browser |
+| `STRIPE_SECRET_KEY` | `packages/payments`, `apps/api` | Stripe secret key |
+| `STRIPE_WEBHOOK_SECRET` | `apps/api` | Webhook signing secret from the Stripe dashboard |
+
+> **Note:** Empty strings fail zod validation in `@t3-oss/env-core`. Omit a variable entirely rather than leaving it empty.
+
+## 4. Run all apps
+
+From the repo root:
+
+```bash
+bun dev
+```
+
+This starts via Turborepo:
+
+| App | URL |
+| --- | --- |
+| `apps/web` | http://localhost:3001 |
+| `apps/api` | http://localhost:3002 |
+| `apps/docs` | http://localhost:3004 |
+
+## 5. Verify
+
+```bash
+curl http://localhost:3002/health
+# -> OK
+```
+
+The web app and this docs site should now be reachable at their respective ports.

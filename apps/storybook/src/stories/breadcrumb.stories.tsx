@@ -5,7 +5,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@repo/design-system/components/ui/breadcrumb";
+} from "@podyard/design-system/components/ui/breadcrumb";
 import type { Meta, StoryObj } from "@storybook/react";
 import { ArrowRightSquare } from "lucide-react";
 

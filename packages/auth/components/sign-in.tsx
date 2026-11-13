@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@repo/design-system/components/ui/button";
-import { Input } from "@repo/design-system/components/ui/input";
-import { Label } from "@repo/design-system/components/ui/label";
-import { signInEmail } from "@repo/auth/client";
+import { Button } from "@podyard/design-system/components/ui/button";
+import { Input } from "@podyard/design-system/components/ui/input";
+import { Label } from "@podyard/design-system/components/ui/label";
+import { signInEmail } from "@podyard/auth/client";
 import { usePathname, useRouter } from "next/navigation";
 import { useState, type FormEvent } from "react";
 

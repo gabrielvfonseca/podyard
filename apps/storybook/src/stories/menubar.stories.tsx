@@ -14,7 +14,7 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@repo/design-system/components/ui/menubar";
+} from "@podyard/design-system/components/ui/menubar";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

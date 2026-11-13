@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "start": "bun start.ts",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0"
+  }
+}

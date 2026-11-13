@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
-import { auth } from "@repo/auth/server";
+import { auth } from "@podyard/auth/server";
 import { cron } from "./routes/cron";
 import { health } from "./routes/health";
 import { webhooks } from "./routes/webhooks";

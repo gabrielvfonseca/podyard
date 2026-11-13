@@ -1,4 +1,4 @@
-import { Calendar } from "@repo/design-system/components/ui/calendar";
+import { Calendar } from "@podyard/design-system/components/ui/calendar";
 import type { Meta, StoryObj } from "@storybook/react";
 import { addDays } from "date-fns";
 import { action } from "storybook/actions";

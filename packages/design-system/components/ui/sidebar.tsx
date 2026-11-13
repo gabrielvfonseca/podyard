@@ -5,25 +5,25 @@ import { Slot as SlotPrimitive } from "radix-ui"
 import { cva, type VariantProps } from "class-variance-authority"
 import { PanelLeftIcon } from "lucide-react"
 
-import { useIsMobile } from "@repo/design-system/hooks/use-mobile"
-import { cn } from "@repo/design-system/lib/utils"
-import { Button } from "@repo/design-system/components/ui/button"
-import { Input } from "@repo/design-system/components/ui/input"
-import { Separator } from "@repo/design-system/components/ui/separator"
+import { useIsMobile } from "@podyard/design-system/hooks/use-mobile"
+import { cn } from "@podyard/design-system/lib/utils"
+import { Button } from "@podyard/design-system/components/ui/button"
+import { Input } from "@podyard/design-system/components/ui/input"
+import { Separator } from "@podyard/design-system/components/ui/separator"
 import {
   Sheet,
   SheetContent,
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@repo/design-system/components/ui/sheet"
-import { Skeleton } from "@repo/design-system/components/ui/skeleton"
+} from "@podyard/design-system/components/ui/sheet"
+import { Skeleton } from "@podyard/design-system/components/ui/skeleton"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@repo/design-system/components/ui/tooltip"
+} from "@podyard/design-system/components/ui/tooltip"
 
 const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7

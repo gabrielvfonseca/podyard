@@ -2,10 +2,29 @@
   "name": "docs",
   "private": true,
   "scripts": {
-    "dev": "mintlify dev --port 3004",
-    "lint": "mintlify broken-links"
+    "dev": "bun --bun next dev -p 3004",
+    "build": "bun --bun next build",
+    "start": "bun --bun next start",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "dependencies": {
+    "fumadocs-core": "^16.19.0",
+    "fumadocs-mdx": "^15.0.0",
+    "fumadocs-ui": "^16.19.0",
+    "next": "16.4.6",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@podyard/typescript-config": "workspace:*",
+    "@tailwindcss/postcss": "^4.2.1",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "25.3.5",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "tailwindcss": "^4.2.1",
     "typescript": "^5.9.3"
   }
 }

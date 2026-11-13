@@ -2,7 +2,7 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@repo/design-system/components/ui/collapsible";
+} from "@podyard/design-system/components/ui/collapsible";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Info } from "lucide-react";
 

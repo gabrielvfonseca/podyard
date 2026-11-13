@@ -1,5 +1,5 @@
 import { prismaAdapter } from "@better-auth/prisma-adapter";
-import { database } from "@repo/database";
+import { database } from "@podyard/database";
 import { betterAuth } from "better-auth";
 import { env } from "./env";
 

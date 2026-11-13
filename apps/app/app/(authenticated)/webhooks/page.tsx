@@ -1,4 +1,4 @@
-import { webhooks } from "@repo/webhooks";
+import { webhooks } from "@podyard/webhooks";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 

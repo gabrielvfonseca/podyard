@@ -1,4 +1,4 @@
-import { Switch } from "@repo/design-system/components/ui/switch";
+import { Switch } from "@podyard/design-system/components/ui/switch";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

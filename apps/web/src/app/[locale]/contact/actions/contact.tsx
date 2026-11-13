@@ -1,9 +1,9 @@
 "use server";
 
-import { resend } from "@repo/email";
-import { ContactTemplate } from "@repo/email/templates/contact";
-import { parseError } from "@repo/observability/error";
-import { createRateLimiter, slidingWindow } from "@repo/rate-limit";
+import { resend } from "@podyard/email";
+import { ContactTemplate } from "@podyard/email/templates/contact";
+import { parseError } from "@podyard/observability/error";
+import { createRateLimiter, slidingWindow } from "@podyard/rate-limit";
 import { headers } from "next/headers";
 import { env } from "@/env";
 

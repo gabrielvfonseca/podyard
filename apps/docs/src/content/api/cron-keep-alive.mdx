@@ -1,0 +1,21 @@
+---
+title: GET /cron/keep-alive
+description: Keep-alive cron endpoint that verifies database connectivity.
+---
+
+## `GET /cron/keep-alive`
+
+Creates and immediately deletes a temporary `page` row to confirm the database is reachable. Useful as a scheduled keep-alive / connectivity probe.
+
+### Response
+
+| Status | Body |
+| --- | --- |
+| `200` | `OK` |
+
+### Example
+
+```bash
+curl http://localhost:3002/cron/keep-alive
+# -> OK
+```

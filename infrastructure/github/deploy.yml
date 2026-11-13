@@ -1,0 +1,68 @@
+name: Deploy
+
+# Optional manual deploy via the Vercel CLI.
+# The default deploy path is Vercel's GitHub integration; this workflow is
+# for teams that prefer `vercel deploy` from CI.
+#
+# Required secrets:
+#   VERCEL_TOKEN
+#   VERCEL_ORG_ID
+#   VERCEL_PROJECT_ID   (per project — override per job)
+
+on:
+  workflow_dispatch:
+    inputs:
+      project:
+        description: "Which project to deploy"
+        type: choice
+        options:
+          - app
+          - web
+          - api
+          - docs
+        required: true
+      target:
+        description: "Deploy target"
+        type: choice
+        options:
+          - production
+          - preview
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.project }} → ${{ inputs.target }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Deploy to Vercel
+        working-directory: apps/${{ inputs.project }}
+        run: |
+          if [ "${{ inputs.target }}" = "production" ]; then
+            npx vercel deploy --prod --yes
+          else
+            npx vercel deploy --yes
+          fi

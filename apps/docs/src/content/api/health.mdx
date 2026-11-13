@@ -1,0 +1,21 @@
+---
+title: GET /health
+description: Liveness check for the Podyard API.
+---
+
+## `GET /health`
+
+Returns `200 OK` with a plain-text `OK` body. Use it to verify the API server is up.
+
+### Response
+
+| Status | Body |
+| --- | --- |
+| `200` | `OK` |
+
+### Example
+
+```bash
+curl http://localhost:3002/health
+# -> OK
+```

@@ -1,0 +1,17 @@
+{
+  "name": "tools",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:all": "bun dev.ts",
+    "dev:app": "bun dev.ts app",
+    "dev:web": "bun dev.ts web",
+    "dev:api": "bun dev.ts api",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf .cache .turbo dist node_modules"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.0"
+  }
+}

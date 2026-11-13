@@ -1,5 +1,5 @@
 {
-  "extends": "@repo/typescript-config/nextjs.json",
+  "extends": "@podyard/typescript-config/nextjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "plugins": [
@@ -8,8 +8,8 @@
       }
     ],
     "paths": {
-      "@repo/*": ["../*"],
-      "@repo/design-system/*": ["./*"]
+      "@podyard/*": ["../*"],
+      "@podyard/design-system/*": ["./*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

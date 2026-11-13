@@ -2,7 +2,7 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@repo/design-system/components/ui/alert";
+} from "@podyard/design-system/components/ui/alert";
 import type { Meta, StoryObj } from "@storybook/react";
 import { AlertCircle } from "lucide-react";
 

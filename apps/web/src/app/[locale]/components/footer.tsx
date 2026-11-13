@@ -1,4 +1,4 @@
-import { Status } from "@repo/observability/status";
+import { Status } from "@podyard/observability/status";
 import Link from "next/link";
 import { env } from "@/env";
 

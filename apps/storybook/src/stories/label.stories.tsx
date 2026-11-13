@@ -1,4 +1,4 @@
-import { Label } from "@repo/design-system/components/ui/label";
+import { Label } from "@podyard/design-system/components/ui/label";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

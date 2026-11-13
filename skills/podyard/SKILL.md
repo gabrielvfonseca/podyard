@@ -26,7 +26,7 @@ All integrations besides the database are optional. Missing environment variable
 
 ## Architecture Overview
 
-The monorepo contains apps and packages. Apps are deployable applications. Packages are shared libraries imported as `@repo/<package-name>`.
+The monorepo contains apps and packages. Apps are deployable applications. Packages are shared libraries imported as `@podyard/<package-name>`.
 
 **Apps** (in `/apps/`):
 
@@ -112,7 +112,7 @@ bun run bump-ui
 
 ### Adding a New Package
 
-Create a new directory in `/packages/` with a `package.json` using the `@repo/<name>` naming convention. Add it as a dependency in consuming apps.
+Create a new directory in `/packages/` with a `package.json` using the `@podyard/<name>` naming convention. Add it as a dependency in consuming apps.
 
 ### Linting and Formatting
 

@@ -1,7 +1,7 @@
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from "@repo/design-system/components/ui/toggle-group";
+} from "@podyard/design-system/components/ui/toggle-group";
 import type { Meta, StoryObj } from "@storybook/react";
 import { Bold, Italic, Underline } from "lucide-react";
 

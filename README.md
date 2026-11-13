@@ -1,140 +1,120 @@
-# Podyard
+![Podyard Banner](banner.jpg)
 
-**Production-grade Turborepo template for Next.js apps.**
+# Millisecond sandboxes for agents. Full VMs only when needed.
 
-<div>
-  <img src="https://img.shields.io/npm/dy/podyard" alt="" />
-  <img src="https://img.shields.io/npm/v/podyard" alt="" />
-  <img src="https://img.shields.io/github/license/vercel/podyard" alt="" />
-</div>
+**Sandboxes for AI agents that start in under 5 ms on V8 isolates. When a command needs real Linux, the session moves to a Firecracker microVM, so you only pay VM costs when you have to. Snapshot, fork and replay any session. Network access is off by default.** 
 
-## Overview
+This repository contains the **hosted platform** (the code in this repo). The **sandbox
+engine** itself is a separate project:
+[github.com/frontal-labs/sandbox](https://github.com/frontal-labs/sandbox).
 
-[podyard](https://github.com/vercel/podyard) is a production-grade [Turborepo](https://turborepo.com) template for [Next.js](https://nextjs.org/) apps. It's designed to be a comprehensive starting point for building SaaS applications, providing a solid, opinionated foundation with minimal configuration required.
+## Repository layout
 
-Built on a decade of experience building web applications, podyard balances speed and quality to help you ship thoroughly-built products faster.
+This is a [Turborepo](https://turborepo.com) monorepo. The platform is split into
+`apps/` (deployable Next.js applications and tools) and `packages/` (shared libraries).
 
-### Philosophy
+### `apps/`
 
-podyard is built around five core principles:
+| App          | What it is                                                             | Port   |
+| ------------ | ---------------------------------------------------------------------- | ------ |
+| `web`        | Marketing website and public docs landing (`/pricing`, `/contact`)     | 3001   |
+| `app`        | User dashboard (auth, organization pages, webhooks)                    | 3000   |
+| `api`        | HTTP API and Stripe webhooks (consumed by the CLI and SDKs)            | 3002   |
+| `docs`       | [Mintlify](https://mintlify.com)-based documentation                   | 3004   |
+| `cli`        | The `podyard` command-line interface (stub — not yet implemented)       | —      |
+| `studio`     | Development-only studio app (stub)                                      | —      |
+| `storybook`  | Storybook for the shared design system                                  | —      |
 
-- **Fast** — Quick to build, run, deploy, and iterate on
-- **Cheap** — Free to start with services that scale with you
-- **Opinionated** — Integrated tooling designed to work together
-- **Modern** — Latest stable features with healthy community support
-- **Safe** — End-to-end type safety and robust security posture
+### `packages/`
 
-## Demo
+Shared libraries consumed by the apps:
 
-Experience podyard in action:
+- `@podyard/analytics` — event tracking (PostHog / GA)
+- `@podyard/auth` — Clerk-based authentication
+- `@podyard/database` — Prisma schema and client
+- `@podyard/design-system` — shared React/UI components (shadcn-based)
+- `@podyard/email` — transactional email via Resend
+- `@podyard/feature-flags` — feature flag client
+- `@podyard/internationalization` — i18n helpers (used by `web`)
+- `@podyard/next-config` — shared Next.js configuration
+- `@podyard/observability` — Sentry + Better Stack wiring
+- `@podyard/payments` — Stripe integration (subscriptions, metering)
+- `@podyard/rate-limit` — request rate limiting
+- `@podyard/sdk` — Podyard SDK (stub — not yet implemented)
+- `@podyard/security` — Arcjet + shared security helpers
+- `@podyard/seo` — metadata / sitemap helpers
+- `@podyard/typescript-config` — shared `tsconfig` presets
+- `@podyard/webhooks` — Svix-based webhook delivery
 
-- [Web](https://demo.podyard.com) — Marketing website
-- [App](https://app.demo.podyard.com) — Main application
-- [Storybook](https://storybook.demo.podyard.com) — Component library
-- [API](https://api.demo.podyard.com/health) — API health check
+### Top-level
 
-## Features
+- `e2e/` — [Playwright](https://playwright.dev/) end-to-end tests
+- `tests/` — repository-level tests (run against the monorepo itself)
+- `tools/` — internal dev tooling
+- `turbo/` — Turborepo configuration and generators
+- `deploy/` and `infrastructure/` — deployment and infrastructure definitions
+- `skills/` — agent skill definitions for working on this codebase
+- `scripts/` — root-level maintenance scripts (e.g. dependency updates)
 
-podyard comes with batteries included:
+## Getting started
 
-### Apps
+### Requirements
 
-- **Web** — Marketing site built with Tailwind CSS and TWBlocks
-- **App** — Main application with authentication and database integration
-- **API** — RESTful API with health checks and monitoring
-- **Docs** — Documentation site powered by Mintlify
-- **Email** — Email templates with React Email
-- **Storybook** — Component development environment
+- [Bun](https://bun.sh)
+- [Node.js](https://nodejs.org) (for tooling that expects a Node runtime)
 
-### Packages
+### Install and run
 
-- **Authentication** — Powered by [Clerk](https://clerk.com)
-- **Database** — Type-safe ORM with migrations
-- **Design System** — Comprehensive component library with dark mode
-- **Payments** — Subscription management via [Stripe](https://stripe.com)
-- **Email** — Transactional emails via [Resend](https://resend.com)
-- **Analytics** — Web ([Google Analytics](https://developers.google.com/analytics)) and product ([Posthog](https://posthog.com))
-- **Observability** — Error tracking ([Sentry](https://sentry.io)), logging, and uptime monitoring ([BetterStack](https://betterstack.com))
-- **Security** — Application security ([Arcjet](https://arcjet.com)), rate limiting, and secure headers
-- **CMS** — Type-safe content management for blogs and documentation
-- **SEO** — Metadata management, sitemaps, and JSON-LD
-- **AI** — AI integration utilities
-- **Webhooks** — Inbound and outbound webhook handling
-- **Collaboration** — Real-time features with avatars and live cursors
-- **Feature Flags** — Feature flag management
-- **Cron** — Scheduled job management
-- **Storage** — File upload and management
-- **Internationalization** — Multi-language support
-- **Notifications** — In-app notification system
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js 20+
-- [Bun](https://bun.sh) (or npm/yarn/pnpm)
-- [Stripe CLI](https://docs.stripe.com/stripe-cli) for local webhook testing
-
-### Installation
-
-Create a new podyard project:
-
-```sh
-npx podyard@latest init
+```bash
+bun install
+bun dev
 ```
 
-### Setup
+This starts the dashboard (`:3000`), marketing site (`:3001`), and API (`:3002`).
+The docs app (`:3004`) is started separately with `bun run dev --filter=docs`.
 
-1. Configure your environment variables
-2. Set up required service accounts (Clerk, Stripe, Resend, etc.)
-3. Run the development server
+### Environment variables
 
-For detailed setup instructions, read the [documentation](https://www.podyard.com/docs).
+Each app ships with an `.env.example` listing the secrets it needs (Clerk,
+Resend, Stripe, Sentry, Better Stack, Arcjet, Svix, and the
+`NEXT_PUBLIC_*` URLs that point between apps). Copy `.env.example` to `.env`
+inside each app and fill in the values before running locally.
 
-## Structure
+### Useful commands
 
-podyard uses a monorepo structure managed by Turborepo:
-
-```
-podyard/
-├── apps/           # Deployable applications
-│   ├── web/        # Marketing website (port 3001)
-│   ├── app/        # Main application (port 3000)
-│   ├── api/        # API server
-│   ├── docs/       # Documentation
-│   ├── email/      # Email templates
-│   └── storybook/  # Component library
-└── packages/       # Shared packages
-    ├── design-system/
-    ├── database/
-    ├── auth/
-    └── ...
-```
-
-Each app is self-contained and independently deployable. Packages are shared across apps for consistency and maintainability.
+| Command                | What it does                                          |
+| ---------------------- | ----------------------------------------------------- |
+| `bun dev`              | Run all apps in watch mode                            |
+| `bun run build`        | Build all apps and packages                           |
+| `bun test`             | Run all tests (Vitest)                                |
+| `bun run check`        | Lint and format check (Ultracite / Biome)             |
+| `bun run fix`          | Auto-fix lint and formatting issues                   |
+| `bun run typecheck`    | Type-check all packages (per-app script)              |
+| `bun run migrate`      | Run a Prisma dev migration                            |
+| `bun run migrate:deploy` | Run a Prisma production migration                  |
+| `bun run db:push`      | Push the Prisma schema to the database (no migration) |
 
 ## Documentation
 
-Full documentation is available at [podyard.com/docs](https://www.podyard.com/docs), including:
+The Mintlify docs live in [`apps/docs`](apps/docs). To develop them locally, follow
+the [Mintlify development guide](https://mintlify.com/docs/development).
 
-- Detailed setup guides
-- Package documentation
-- Migration guides for swapping providers
-- Deployment instructions
-- Examples and recipes
+## Status
 
-## Contributing
+This repository is the **hosted platform** for the Podyard sandbox engine. The engine
+itself (sandbox creation, exec, filesystem, snapshot, fork, destroy) is implemented in
+[frontal-labs/sandbox](https://github.com/frontal-labs/sandbox). Several parts of this
+platform are still in progress:
 
-We welcome contributions! See the [contributing guide](https://github.com/vercel/podyard/blob/main/.github/CONTRIBUTING.md) for details.
+- `apps/cli` — the `podyard` CLI is a stub and is not yet implemented.
+- `packages/sdk` — the Podyard SDK is a stub and is not yet implemented.
+- `apps/studio` — a development-only studio app, not part of the shipped product.
 
-## Contributors
-
-<a href="https://github.com/vercel/podyard/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=vercel/podyard" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
+See [NOTICE.md](NOTICE.md) for the attribution of the engine and its license.
 
 ## License
 
-MIT
+Podyard is licensed under the [MIT License](LICENSE.md).
+
+The sandbox engine it builds on is licensed under the [Apache License 2.0](https://github.com/frontal-labs/sandbox)
+— see [NOTICE.md](NOTICE.md) for the full third-party attribution.

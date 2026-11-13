@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@repo/design-system/components/ui/button";
+import { Button } from "@podyard/design-system/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -8,7 +8,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@repo/design-system/components/ui/dropdown-menu";
+} from "@podyard/design-system/components/ui/dropdown-menu";
 import { useAuth } from "../provider";
 import { signOut } from "../client";
 

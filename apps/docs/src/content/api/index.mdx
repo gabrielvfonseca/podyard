@@ -1,0 +1,22 @@
+---
+title: API Reference
+description: Reference for the Podyard Hono API, including auth, webhooks, health, and cron routes.
+---
+
+The Podyard API is a standalone [Hono](https://hono.dev) server (no Next.js) running on port **3002**.
+
+- **Base URL (local):** `http://localhost:3002`
+- **Auth:** [Better Auth](https://better-auth.com) is mounted at `/api/auth`.
+- **CORS:** allows `http://localhost:3001` and `http://localhost:3002` (with credentials); other origins get `*`.
+
+## Endpoints
+
+| Method | Path | Description |
+| --- | --- | --- |
+| `GET` | [`/health`](/api/health) | Liveness check |
+| `GET` | [`/cron/keep-alive`](/api/cron-keep-alive) | Keep-alive cron (verifies DB) |
+| `POST` | [`/webhooks/payments`](/api/webhooks-payments) | Stripe webhook receiver |
+| `POST` | [`/webhooks/auth`](/api/webhooks-auth) | Auth event receiver |
+| `*` | [`/api/auth/*`](/api/auth) | Better Auth endpoints |
+
+---

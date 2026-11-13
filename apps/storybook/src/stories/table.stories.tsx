@@ -6,7 +6,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@repo/design-system/components/ui/table";
+} from "@podyard/design-system/components/ui/table";
 import type { Meta, StoryObj } from "@storybook/react";
 
 const invoices = [

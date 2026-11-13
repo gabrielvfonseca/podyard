@@ -1,4 +1,4 @@
-import { Textarea } from "@repo/design-system/components/ui/textarea";
+import { Textarea } from "@podyard/design-system/components/ui/textarea";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

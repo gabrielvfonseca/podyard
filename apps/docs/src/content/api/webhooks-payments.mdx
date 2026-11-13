@@ -1,0 +1,39 @@
+---
+title: POST /webhooks/payments
+description: Stripe webhook receiver that syncs subscription state.
+---
+
+## `POST /webhooks/payments`
+
+Receives Stripe webhook events. The payload is verified against the `stripe-signature` header using `STRIPE_WEBHOOK_SECRET`.
+
+### Supported events
+
+| Event | Action |
+| --- | --- |
+| `checkout.session.completed` | Captures a `User Subscribed` analytics event for the linked user |
+| `subscription_schedule.canceled` | Captures a `User Unsubscribed` analytics event for the linked user |
+
+Users are resolved by `stripeCustomerId` on the Better Auth user record.
+
+### Request
+
+- **Content-Type:** `application/json` (raw Stripe payload)
+- **Headers:** `stripe-signature` (required)
+
+### Responses
+
+| Status | Body | Meaning |
+| --- | --- | --- |
+| `200` | `{ "result": <Stripe.Event>, "ok": true }` | Event processed |
+| `503` | `{ "message": "Not configured", "ok": false }` | Stripe secret / webhook secret missing |
+| `500` | `{ "message": "something went wrong", "ok": false }` | Verification or handling failed |
+
+### Example
+
+```bash
+curl -X POST http://localhost:3002/webhooks/payments \
+  -H "stripe-signature: t=...,v1=..." \
+  -H "Content-Type: application/json" \
+  --data @event.json
+```

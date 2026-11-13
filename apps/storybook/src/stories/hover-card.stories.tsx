@@ -2,7 +2,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from "@repo/design-system/components/ui/hover-card";
+} from "@podyard/design-system/components/ui/hover-card";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

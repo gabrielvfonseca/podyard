@@ -4,14 +4,14 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@repo/design-system/components/ui/avatar";
+} from "@podyard/design-system/components/ui/avatar";
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
   CarouselItem,
-} from "@repo/design-system/components/ui/carousel";
-import type { Dictionary } from "@repo/internationalization";
+} from "@podyard/design-system/components/ui/carousel";
+import type { Dictionary } from "@podyard/internationalization";
 import { User } from "lucide-react";
 import { useEffect, useState } from "react";
 

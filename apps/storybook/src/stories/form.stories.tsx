@@ -7,7 +7,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@repo/design-system/components/ui/form";
+} from "@podyard/design-system/components/ui/form";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useForm } from "react-hook-form";
 import { action } from "storybook/actions";

@@ -1,0 +1,35 @@
+---
+title: POST /webhooks/auth
+description: Receives auth lifecycle events and captures analytics.
+---
+
+## `POST /webhooks/auth`
+
+Receives auth lifecycle events. With Better Auth, most auth events are handled via Better Auth's event system (see `packages/auth/server.ts`); this endpoint is kept for backwards compatibility or external providers.
+
+### Request
+
+JSON body with a `type` field and an `id`:
+
+```json
+{
+  "type": "user.created",
+  "id": "user-id"
+}
+```
+
+### Supported events
+
+| `type` | Analytics event | Status |
+| --- | --- | --- |
+| `user.created` | `User Created` | `201` |
+| `user.updated` | `User Updated` | `201` |
+| `user.deleted` | `User Deleted` | `201` |
+| *(other)* | — | `400` |
+
+### Responses
+
+| Status | Body |
+| --- | --- |
+| `201` | `User created` / `User updated` / `User deleted` |
+| `400` | `Unknown event` |

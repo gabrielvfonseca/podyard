@@ -1,4 +1,4 @@
-import { Separator } from "@repo/design-system/components/ui/separator";
+import { Separator } from "@podyard/design-system/components/ui/separator";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

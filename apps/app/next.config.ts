@@ -1,6 +1,6 @@
-import { withToolbar } from "@repo/feature-flags/lib/toolbar";
-import { config, withAnalyzer } from "@repo/next-config";
-import { withLogging, withSentry } from "@repo/observability/next-config";
+import { withToolbar } from "@podyard/feature-flags/lib/toolbar";
+import { config, withAnalyzer } from "@podyard/next-config";
+import { withLogging, withSentry } from "@podyard/observability/next-config";
 import type { NextConfig } from "next";
 import { env } from "@/env";
 

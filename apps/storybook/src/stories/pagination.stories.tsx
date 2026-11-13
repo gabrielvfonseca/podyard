@@ -6,7 +6,7 @@ import {
   PaginationLink,
   PaginationNext,
   PaginationPrevious,
-} from "@repo/design-system/components/ui/pagination";
+} from "@podyard/design-system/components/ui/pagination";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

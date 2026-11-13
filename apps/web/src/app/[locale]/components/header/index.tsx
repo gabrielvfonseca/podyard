@@ -1,7 +1,7 @@
 "use client";
 
-import { ModeToggle } from "@repo/design-system/components/mode-toggle";
-import { Button } from "@repo/design-system/components/ui/button";
+import { ModeToggle } from "@podyard/design-system/components/mode-toggle";
+import { Button } from "@podyard/design-system/components/ui/button";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -9,8 +9,8 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-} from "@repo/design-system/components/ui/navigation-menu";
-import type { Dictionary } from "@repo/internationalization";
+} from "@podyard/design-system/components/ui/navigation-menu";
+import type { Dictionary } from "@podyard/internationalization";
 import { Menu, MoveRight, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";

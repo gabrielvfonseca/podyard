@@ -3,7 +3,7 @@ import {
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@repo/design-system/components/ui/tabs";
+} from "@podyard/design-system/components/ui/tabs";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

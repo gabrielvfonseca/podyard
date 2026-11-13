@@ -3,7 +3,7 @@ import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@repo/design-system/components/ui/chart";
+} from "@podyard/design-system/components/ui/chart";
 import type { Meta, StoryObj } from "@storybook/react";
 import { useMemo } from "react";
 import {

@@ -1,8 +1,8 @@
 import type { Context } from "hono";
-import { analytics } from "@repo/analytics/server";
-import { database } from "@repo/database";
-import { log } from "@repo/observability/log";
-import { stripe } from "@repo/payments";
+import { analytics } from "@podyard/analytics/server";
+import { database } from "@podyard/database";
+import { log } from "@podyard/observability/log";
+import { stripe } from "@podyard/payments";
 import type Stripe from "stripe";
 import { env } from "@/env";
 

@@ -1,0 +1,82 @@
+# Local parity stack for podyard.
+# Mirrors the Vercel deployment so the apps can run outside Vercel:
+# local development, offline E2E, or air-gapped CI.
+#
+#   docker compose -f infrastructure/docker/docker-compose.yml up --build
+#
+# Services:
+#   postgres  127.0.0.1:5432  (DATABASE_URL)
+#   app       127.0.0.1:3000  (Next.js)
+#   web       127.0.0.1:3001  (Next.js)
+#   api       127.0.0.1:3002  (Next.js)
+
+name: podyard
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: podyard
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Next.js apps share the repo root as their build context. Each service
+  # builds the whole monorepo (bun workspaces) and serves one app.
+  app:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile
+      args:
+        APP_DIR: apps/app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      SKIP_ENV_VALIDATION: "true"
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/podyard
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile
+      args:
+        APP_DIR: apps/web
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      SKIP_ENV_VALIDATION: "true"
+    depends_on:
+      - app
+
+  api:
+    build:
+      context: ../..
+      dockerfile: infrastructure/docker/Dockerfile
+      args:
+        APP_DIR: apps/api
+    restart: unless-stopped
+    ports:
+      - "3002:3000"
+    environment:
+      SKIP_ENV_VALIDATION: "true"
+      DATABASE_URL: postgres://postgres:postgres@postgres:5432/podyard
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  postgres-data:

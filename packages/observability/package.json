@@ -1,5 +1,5 @@
 {
-  "name": "@repo/observability",
+  "name": "@podyard/observability",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,13 +9,14 @@
   "dependencies": {
     "@logtail/next": "^0.3.1",
     "@sentry/nextjs": "^10.42.0",
+    "@t3-oss/env-core": "^0.13.11",
     "@t3-oss/env-nextjs": "^0.13.10",
     "react": "19.2.4",
     "server-only": "^0.0.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@podyard/typescript-config": "workspace:*",
     "@types/node": "25.3.5",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",

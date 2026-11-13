@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "lib": ["ES2022", "DOM"],
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@podyard/*": ["../packages/*"]
+    }
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

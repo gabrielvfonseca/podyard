@@ -1,4 +1,4 @@
-import { Progress } from "@repo/design-system/components/ui/progress";
+import { Progress } from "@podyard/design-system/components/ui/progress";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

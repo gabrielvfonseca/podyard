@@ -1,5 +1,5 @@
 import type { Context } from "hono";
-import { database } from "@repo/database";
+import { database } from "@podyard/database";
 
 export const cron = async (c: Context) => {
   const newPage = await database.page.create({

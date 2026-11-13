@@ -5,9 +5,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@repo/design-system/components/ui/breadcrumb";
-import { Separator } from "@repo/design-system/components/ui/separator";
-import { SidebarTrigger } from "@repo/design-system/components/ui/sidebar";
+} from "@podyard/design-system/components/ui/breadcrumb";
+import { Separator } from "@podyard/design-system/components/ui/separator";
+import { SidebarTrigger } from "@podyard/design-system/components/ui/sidebar";
 import { Fragment, type ReactNode } from "react";
 
 interface HeaderProps {

@@ -1,5 +1,5 @@
-import { getSession } from "@repo/auth/server";
-import { database } from "@repo/database";
+import { getSession } from "@podyard/auth/server";
+import { database } from "@podyard/database";
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";

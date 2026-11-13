@@ -1,0 +1,97 @@
+name: E2E
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: e2e-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  CI: true
+
+jobs:
+  e2e:
+    name: Playwright
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SKIP_ENV_VALIDATION: "true"
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/podyard
+      SENTRY_AUTH_TOKEN: ci-token
+      NEXT_PUBLIC_APP_URL: http://localhost:3000
+      NEXT_PUBLIC_WEB_URL: http://localhost:3001
+      NEXT_PUBLIC_DOCS_URL: http://localhost:3003
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: podyard
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Install Playwright browsers
+        working-directory: e2e
+        run: bunx playwright install --with-deps
+
+      - name: Generate Prisma client
+        run: cd packages/database && bunx prisma generate --no-hints
+
+      - name: Push Prisma schema
+        run: cd packages/database && bunx prisma db push --skip-generate
+
+      - name: Build all apps
+        run: bun build
+
+      - name: Start all apps (3000, 3001, 3002)
+        run: bun start.ts
+        working-directory: ${{ github.workspace }}/e2e
+
+      - name: Run Playwright tests
+        working-directory: e2e
+        run: bunx playwright test
+
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: e2e/playwright-report/
+          retention-days: 14
+
+      - name: Upload test results
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-results
+          path: e2e/test-results/
+          retention-days: 14

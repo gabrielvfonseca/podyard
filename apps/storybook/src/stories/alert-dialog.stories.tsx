@@ -8,7 +8,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@repo/design-system/components/ui/alert-dialog";
+} from "@podyard/design-system/components/ui/alert-dialog";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**

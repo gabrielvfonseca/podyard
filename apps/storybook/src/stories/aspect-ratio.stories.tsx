@@ -1,4 +1,4 @@
-import { AspectRatio } from "@repo/design-system/components/ui/aspect-ratio";
+import { AspectRatio } from "@podyard/design-system/components/ui/aspect-ratio";
 import type { Meta, StoryObj } from "@storybook/react";
 import Image from "next/image";
 

@@ -1,0 +1,41 @@
+---
+title: Introduction
+description: Welcome to Podyard — an overview of the platform.
+---
+
+# Introduction
+
+Welcome to **Podyard**, a modern web application built with Next.js, Hono, and a shared monorepo of packages.
+
+## What is Podyard?
+
+Podyard is a full-stack application that demonstrates:
+
+- **Hono API** — a standalone Hono server (`@hono/node-server`) replacing Next.js route handlers for the API layer
+- **Better Auth** — authentication powered by Better Auth with a Prisma adapter, replacing Clerk
+- **Stripe Payments** — payment processing wired through Better Auth and the shared `@podyard/payments` package
+- **Fumadocs** — this documentation site, built with Fumadocs MDX and the Fumadocs UI component library
+
+## Architecture
+
+Podyard is a monorepo with three applications and a set of shared packages:
+
+| App | Port | Description |
+|-----|------|-------------|
+| `apps/web` | 3001 | The main Next.js web application |
+| `apps/api` | 3002 | The Hono API server with Better Auth |
+| `apps/docs` | 3004 | This Fumadocs documentation site |
+
+Shared packages live in `packages/` and include:
+
+- `@podyard/database` — Prisma client + schema
+- `@podyard/auth` — Better Auth server + client
+- `@podyard/payments` — Stripe integration
+- `@podyard/analytics` — analytics utilities
+- `@podyard/observability` — logging and observability
+- `@podyard/design-system` — shared UI components
+- `@podyard/feature-flags` — feature flag helpers
+
+## Getting Started
+
+Head to the [Quickstart](/docs/quickstart) to get your local environment running.

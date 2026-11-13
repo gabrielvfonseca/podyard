@@ -1,5 +1,5 @@
-import { Button } from "@repo/design-system/components/ui/button";
-import type { Dictionary } from "@repo/internationalization";
+import { Button } from "@podyard/design-system/components/ui/button";
+import type { Dictionary } from "@podyard/internationalization";
 import { MoveRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { env } from "@/env";

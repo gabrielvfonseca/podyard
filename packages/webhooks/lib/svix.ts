@@ -1,5 +1,5 @@
 import "server-only";
-import { getSession } from "@repo/auth/server";
+import { getSession } from "@podyard/auth/server";
 import { Svix } from "svix";
 import { keys } from "../keys";
 

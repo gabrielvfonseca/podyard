@@ -1,9 +1,9 @@
-import { auth } from "@repo/auth/server";
+import { auth } from "@podyard/auth/server";
 import {
   noseconeOptions,
   noseconeOptionsWithToolbar,
   securityMiddleware,
-} from "@repo/security/proxy";
+} from "@podyard/security/proxy";
 import { NextResponse, type NextRequest } from "next/server";
 import { env } from "./env";
 

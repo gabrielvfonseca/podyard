@@ -1,7 +1,7 @@
-import { getSession } from "@repo/auth/server";
-import { SidebarProvider } from "@repo/design-system/components/ui/sidebar";
-import { showBetaFeature } from "@repo/feature-flags";
-import { secure } from "@repo/security";
+import { getSession } from "@podyard/auth/server";
+import { SidebarProvider } from "@podyard/design-system/components/ui/sidebar";
+import { showBetaFeature } from "@podyard/feature-flags";
+import { secure } from "@podyard/security";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";

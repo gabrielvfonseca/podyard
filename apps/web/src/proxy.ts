@@ -1,14 +1,13 @@
-import { authMiddleware } from "@repo/auth/proxy";
-import { internationalizationMiddleware } from "@repo/internationalization/proxy";
-import { parseError } from "@repo/observability/error";
-import { secure } from "@repo/security";
+import { internationalizationMiddleware } from "@podyard/internationalization/proxy";
+import { parseError } from "@podyard/observability/error";
+import { secure } from "@podyard/security";
 import {
   noseconeOptions,
   noseconeOptionsWithToolbar,
   securityMiddleware,
-} from "@repo/security/proxy";
+} from "@podyard/security/proxy";
 import { createNEMO } from "@rescale/nemo";
-import { type NextProxy, type NextRequest, NextResponse } from "next/server";
+import { type NextFetchEvent, type NextProxy, type NextRequest, NextResponse } from "next/server";
 import { env } from "@/env";
 
 export const config = {
@@ -45,7 +44,7 @@ const arcjetMiddleware = async (request: NextRequest) => {
   }
 };
 
-// Compose non-Clerk middleware with Nemo
+// Compose middleware with Nemo
 const composedMiddleware = createNEMO(
   {},
   {
@@ -53,14 +52,13 @@ const composedMiddleware = createNEMO(
   }
 );
 
-// Clerk middleware wraps other middleware in its callback
-export default authMiddleware(async (_auth, request, event) => {
+export default (async (request: NextRequest, event: NextFetchEvent) => {
   // Run security headers first
   const headersResponse = securityHeaders();
 
   // Then run composed middleware (i18n + arcjet)
   const middlewareResponse = await composedMiddleware(
-    request as unknown as NextRequest,
+    request,
     event
   );
 

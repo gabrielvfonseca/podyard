@@ -12,7 +12,7 @@ import {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@repo/design-system/components/ui/context-menu";
+} from "@podyard/design-system/components/ui/context-menu";
 import type { Meta, StoryObj } from "@storybook/react";
 
 /**
