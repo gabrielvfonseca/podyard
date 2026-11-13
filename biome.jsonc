@@ -19,7 +19,12 @@
       "!packages/design-system/src/hooks",
       "!docs",
       "!apps/docs/**/*.json",
-      "!apps/email/.react-email"
+      "!apps/email/.react-email",
+      "!e2e/playwright-report",
+      "!e2e/test-results",
+      "!**/.turbo",
+      "!**/.next",
+      "!**/dist"
     ]
   }
 }
