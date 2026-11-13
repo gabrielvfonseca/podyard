@@ -9,11 +9,11 @@ type MetadataGenerator = Omit<Metadata, "description" | "title"> & {
 
 const applicationName = "podyard";
 const author: Metadata["authors"] = {
-  name: "Vercel",
-  url: "https://vercel.com/",
+  name: "Podyard",
+  url: "https://podyard.dev/",
 };
-const publisher = "Vercel";
-const twitterHandle = "@vercel";
+const publisher = "Podyard";
+const twitterHandle = "@gabfon_";
 const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
 const productionUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL;
 
