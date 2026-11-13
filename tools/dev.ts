@@ -9,7 +9,7 @@
  * Each app runs `bun dev` in its workspace directory. SIGINT/SIGTERM tear
  * down every child process.
  */
-import { spawn, type ChildProcess } from "node:child_process";
+import { type ChildProcess, spawn } from "node:child_process";
 import path from "node:path";
 
 const root = path.resolve(import.meta.dirname, "..");
@@ -25,7 +25,9 @@ const selected = requested.length > 0 ? requested : Object.keys(APPS);
 
 for (const name of selected) {
   if (!(name in APPS)) {
-    console.error(`Unknown app: ${name}. Available: ${Object.keys(APPS).join(", ")}`);
+    console.error(
+      `Unknown app: ${name}. Available: ${Object.keys(APPS).join(", ")}`
+    );
     process.exit(1);
   }
 }
@@ -34,14 +36,16 @@ const children: ChildProcess[] = [];
 let shuttingDown = false;
 
 const shutdown = (code: number) => {
-  if (shuttingDown) return;
+  if (shuttingDown) {
+    return;
+  }
   shuttingDown = true;
 
   for (const child of children) {
     child.kill("SIGTERM");
   }
 
-  setTimeout(() => process.exit(code), 5_000).unref();
+  setTimeout(() => process.exit(code), 5000).unref();
 };
 
 for (const name of selected) {

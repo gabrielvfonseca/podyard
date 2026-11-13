@@ -19,7 +19,7 @@ describe("repo sanity", () => {
     ]) {
       expect(
         fs.existsSync(path.join(root, entry)),
-        `${entry}/ should exist`,
+        `${entry}/ should exist`
       ).toBe(true);
     }
   });

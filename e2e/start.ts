@@ -41,17 +41,22 @@ for (const app of apps) {
 let shuttingDown = false;
 
 const shutdown = (code: number) => {
-  if (shuttingDown) return;
+  if (shuttingDown) {
+    return;
+  }
   shuttingDown = true;
 
   for (const child of children) {
     child.kill("SIGTERM");
   }
 
-  setTimeout(() => process.exit(code), 5_000).unref();
+  setTimeout(() => process.exit(code), 5000).unref();
 };
 
 process.on("SIGTERM", () => shutdown(0));
 process.on("SIGINT", () => shutdown(0));
 
-console.log(`[start] Started ${apps.length} apps:`, apps.map((a) => a.dir).join(", "));
+console.log(
+  `[start] Started ${apps.length} apps:`,
+  apps.map((a) => a.dir).join(", ")
+);
