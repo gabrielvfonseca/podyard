@@ -5,17 +5,21 @@
   "envMode": "loose",
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "test"],
+      "dependsOn": ["^build"],
       "outputs": [
         ".next/**",
         "!.next/cache/**",
         "**/generated/**",
+        "dist/**",
         "storybook-static/**",
         ".react-email/**"
       ]
     },
     "test": {
       "dependsOn": ["^test"]
+    },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
     },
     "analyze": {
       "dependsOn": ["^analyze"]
