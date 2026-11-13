@@ -3,13 +3,13 @@ import Link from "next/link";
 import { env } from "@/env";
 
 interface NavigationItem {
-  title: string;
   description: string;
   href?: string;
   items?: { title: string; href: string }[];
+  title: string;
 }
 
-export const Footer = async () => {
+export const Footer = () => {
   const navigationItems: NavigationItem[] = [
     {
       title: "Home",

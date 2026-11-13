@@ -7,7 +7,12 @@ import {
   securityMiddleware,
 } from "@podyard/security/proxy";
 import { createNEMO } from "@rescale/nemo";
-import { type NextFetchEvent, type NextProxy, type NextRequest, NextResponse } from "next/server";
+import {
+  type NextFetchEvent,
+  type NextProxy,
+  type NextRequest,
+  NextResponse,
+} from "next/server";
 import { env } from "@/env";
 
 export const config = {
@@ -57,10 +62,7 @@ export default (async (request: NextRequest, event: NextFetchEvent) => {
   const headersResponse = securityHeaders();
 
   // Then run composed middleware (i18n + arcjet)
-  const middlewareResponse = await composedMiddleware(
-    request,
-    event
-  );
+  const middlewareResponse = await composedMiddleware(request, event);
 
   // Return middleware response if it exists, otherwise headers response
   return middlewareResponse || headersResponse;

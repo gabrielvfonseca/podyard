@@ -12,7 +12,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 /**
  * A collection of links for navigating websites.
  */
-const meta = {
+const meta: Meta<typeof NavigationMenu> = {
   title: "ui/NavigationMenu",
   component: NavigationMenu,
   tags: ["autodocs"],
@@ -66,7 +66,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof NavigationMenu>;
+};
 
 export default meta;
 

@@ -10,8 +10,8 @@ export function DocsSearchProvider({
 }) {
   return (
     <SearchProvider
-      SearchDialog={DefaultSearchDialog}
       options={{ api: "/api/search" }}
+      SearchDialog={DefaultSearchDialog}
     >
       {children}
     </SearchProvider>

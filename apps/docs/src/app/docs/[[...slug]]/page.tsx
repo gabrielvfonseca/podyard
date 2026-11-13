@@ -1,4 +1,4 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { PageContent } from "@/components/docs-page";
 import { source } from "@/source";
 
@@ -15,10 +15,16 @@ export function generateStaticParams() {
 export default async function Page(props: PageProps) {
   const { slug } = await props.params;
 
+  // The optional catch-all also matches the bare "/docs" index (slug === undefined),
+  // which previously had its own static page.tsx redirecting to the introduction.
+  if (!slug) {
+    redirect("/docs/introduction");
+  }
+
   const page = source.getPage(slug);
   if (!page) {
     notFound();
   }
 
-  return <PageContent url={page.url} data={page.data} />;
+  return <PageContent data={page.data} url={page.url} />;
 }

@@ -1,6 +1,6 @@
-import type { Context } from "hono";
-import { log } from "@podyard/observability/log";
 import { analytics } from "@podyard/analytics/server";
+import { log } from "@podyard/observability/log";
+import type { Context } from "hono";
 
 /**
  * Auth webhook handler.

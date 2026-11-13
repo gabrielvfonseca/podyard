@@ -11,7 +11,7 @@ import {
 import type { Meta, StoryObj } from "@storybook/react";
 import { useForm } from "react-hook-form";
 import { action } from "storybook/actions";
-import { object, string, type infer as zInfer } from "zod";
+import { object, string, type infer as zInfer } from "zod/v3";
 
 /**
  * Building forms with React Hook Form and Zod.

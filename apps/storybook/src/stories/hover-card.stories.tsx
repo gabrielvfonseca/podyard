@@ -8,7 +8,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 /**
  * For sighted users to preview content available behind a link.
  */
-const meta = {
+const meta: Meta<typeof HoverCard> = {
   title: "ui/HoverCard",
   component: HoverCard,
   tags: ["autodocs"],
@@ -25,7 +25,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof HoverCard>;
+};
 
 export default meta;
 

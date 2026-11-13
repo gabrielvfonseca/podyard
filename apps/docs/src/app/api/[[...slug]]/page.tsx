@@ -20,5 +20,5 @@ export default async function Page(props: PageProps) {
     notFound();
   }
 
-  return <PageContent url={page.url} data={page.data} />;
+  return <PageContent data={page.data} url={page.url} />;
 }

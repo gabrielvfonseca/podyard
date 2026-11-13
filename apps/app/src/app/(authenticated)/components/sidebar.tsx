@@ -2,7 +2,6 @@
 
 import { OrganizationSwitcher, UserButton } from "@podyard/auth/client";
 import { ModeToggle } from "@podyard/design-system/components/mode-toggle";
-import { Button } from "@podyard/design-system/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,

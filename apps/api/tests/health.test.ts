@@ -1,5 +1,5 @@
 import { expect, test, vi } from "vitest";
-import { app } from "../app";
+import { app } from "../src/app";
 
 // Mock the database to avoid server-only import issues
 vi.mock("@podyard/database", () => ({

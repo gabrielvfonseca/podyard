@@ -4,6 +4,9 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@podyard/auth/*": ["../../packages/auth/src/*"],
+      "@podyard/analytics/*": ["../../packages/analytics/src/*"],
+      "@podyard/observability/*": ["../../packages/observability/src/*"],
       "@podyard/*": ["../../packages/*"]
     },
     "module": "ESNext",
@@ -12,10 +15,6 @@
     "lib": ["ESNext"],
     "jsx": "react-jsx"
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "*.ts"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "*.ts"],
   "exclude": ["node_modules", "dist"]
 }

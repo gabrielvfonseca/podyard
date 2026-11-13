@@ -107,7 +107,9 @@ export const StackedAreaChart: Story = {
           tickMargin={8}
         />
         <ChartTooltip
-          content={<ChartTooltipContent indicator="dot" />}
+          content={(props) => (
+            <ChartTooltipContent {...props} indicator="dot" />
+          )}
           cursor={false}
         />
         <Area
@@ -150,7 +152,9 @@ export const StackedBarChart: Story = {
           tickMargin={10}
         />
         <ChartTooltip
-          content={<ChartTooltipContent indicator="dashed" />}
+          content={(props) => (
+            <ChartTooltipContent {...props} indicator="dashed" />
+          )}
           cursor={false}
         />
         <Bar dataKey="desktop" fill="var(--color-desktop)" radius={4} />
@@ -186,7 +190,7 @@ export const MultiLineChart: Story = {
           tickMargin={8}
         />
         <ChartTooltip
-          content={<ChartTooltipContent hideLabel />}
+          content={(props) => <ChartTooltipContent {...props} hideLabel />}
           cursor={false}
         />
         <Line
@@ -224,7 +228,7 @@ export const DoughnutChart: Story = {
       <ChartContainer {...args}>
         <PieChart>
           <ChartTooltip
-            content={<ChartTooltipContent hideLabel />}
+            content={(props) => <ChartTooltipContent {...props} hideLabel />}
             cursor={false}
           />
           <Pie

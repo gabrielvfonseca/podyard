@@ -4,7 +4,7 @@ import {
   noseconeOptionsWithToolbar,
   securityMiddleware,
 } from "@podyard/security/proxy";
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { env } from "./env";
 
 const securityHeaders = env.FLAGS_SECRET

@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 /**
  * A control that allows the user to toggle between checked and not checked.
  */
-const meta = {
+const meta: Meta<typeof Switch> = {
   title: "ui/Switch",
   component: Switch,
   tags: ["autodocs"],
@@ -20,7 +20,7 @@ const meta = {
       </label>
     </div>
   ),
-} satisfies Meta<typeof Switch>;
+};
 
 export default meta;
 

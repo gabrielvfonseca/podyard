@@ -22,7 +22,7 @@ import { Mail, Plus, PlusCircle, Search, UserPlus } from "lucide-react";
  * Displays a menu to the user — such as a set of actions or functions —
  * triggered by a button.
  */
-const meta = {
+const meta: Meta<typeof DropdownMenu> = {
   title: "ui/DropdownMenu",
   component: DropdownMenu,
   tags: ["autodocs"],
@@ -43,7 +43,7 @@ const meta = {
   parameters: {
     layout: "centered",
   },
-} satisfies Meta<typeof DropdownMenu>;
+};
 
 export default meta;
 

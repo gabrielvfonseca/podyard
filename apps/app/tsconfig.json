@@ -3,15 +3,31 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],
+      "@/*": ["./src/*"],
+      "@podyard/analytics/*": ["../../packages/analytics/src/*"],
+      "@podyard/auth/*": ["../../packages/auth/src/*"],
+      "@podyard/database/*": ["../../packages/database/src/*"],
+      "@podyard/design-system/*": ["../../packages/design-system/src/*"],
+      "@podyard/email/*": ["../../packages/email/src/*"],
+      "@podyard/feature-flags/*": ["../../packages/feature-flags/src/*"],
+      "@podyard/internationalization/*": [
+        "../../packages/internationalization/src/*"
+      ],
+      "@podyard/next-config/*": ["../../packages/next-config/src/*"],
+      "@podyard/observability/*": ["../../packages/observability/src/*"],
+      "@podyard/payments/*": ["../../packages/payments/src/*"],
+      "@podyard/rate-limit/*": ["../../packages/rate-limit/src/*"],
+      "@podyard/security/*": ["../../packages/security/src/*"],
+      "@podyard/seo/*": ["../../packages/seo/src/*"],
+      "@podyard/webhooks/*": ["../../packages/webhooks/src/*"],
       "@podyard/*": ["../../packages/*"]
     }
   },
   "include": [
     "next-env.d.ts",
     "next.config.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx"
   ]
 }

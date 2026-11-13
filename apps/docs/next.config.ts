@@ -1,5 +1,5 @@
-import type { NextConfig } from "next";
 import { createMDX } from "fumadocs-mdx/next";
+import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
@@ -14,13 +14,17 @@ const nextConfig: NextConfig = {
 // themselves at build time. Drop any rule whose condition relies on `query`.
 function dropQueryRules(rules: Record<string, unknown>): void {
   for (const key of Object.keys(rules)) {
-    const rule = rules[key] as { condition?: { query?: unknown; all?: unknown[] } };
+    const rule = rules[key] as {
+      condition?: { query?: unknown; all?: unknown[] };
+    };
     const cond = rule?.condition;
     const hasQuery =
       cond &&
       (cond.query !== undefined ||
-        Array.isArray(cond.all) &&
-          cond.all.some((c) => c !== null && typeof c === "object" && "query" in c));
+        (Array.isArray(cond.all) &&
+          cond.all.some(
+            (c) => c !== null && typeof c === "object" && "query" in c
+          )));
     if (hasQuery) {
       delete rules[key];
     }
