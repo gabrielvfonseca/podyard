@@ -4,6 +4,11 @@
   "private": true,
   "scripts": {
     "clean": "git clean -xdf .cache .turbo dist node_modules",
-    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+    "typecheck": "node -e \"require('fs').readdirSync('.').filter(f=>f.endsWith('.json')&&f!=='package.json').forEach(f=>{JSON.parse(require('fs').readFileSync(f,'utf8'));console.log(f+': valid')})\"",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.18"
   }
 }

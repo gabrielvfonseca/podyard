@@ -8,10 +8,11 @@
       }
     ],
     "paths": {
+      "@podyard/observability/*": ["../observability/src/*"],
       "@podyard/*": ["../*"],
-      "@podyard/design-system/*": ["./*"]
+      "@podyard/design-system/*": ["./src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }

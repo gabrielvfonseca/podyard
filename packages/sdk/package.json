@@ -1,0 +1,43 @@
+{
+  "name": "@podyard/sdk",
+  "version": "0.1.0",
+  "description": "Podyard SDK - great DX client for Podyard sandboxes",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "sideEffects": false,
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf dist .turbo node_modules",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@frontal-labs/error": "^0.7.0",
+    "@frontal-labs/sandbox-sdk": "^0.2.0"
+  },
+  "devDependencies": {
+    "@podyard/typescript-config": "workspace:*",
+    "@types/node": "^25.3.5",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

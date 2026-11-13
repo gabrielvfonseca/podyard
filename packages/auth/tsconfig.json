@@ -1,8 +1,13 @@
 {
   "extends": "@podyard/typescript-config/nextjs.json",
   "compilerOptions": {
-    "baseUrl": "."
+    "baseUrl": ".",
+    "paths": {
+      "@podyard/observability/*": ["../observability/src/*"],
+      "@podyard/design-system/*": ["../design-system/src/*"],
+      "@podyard/auth/*": ["./src/*"]
+    }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx"],
   "exclude": ["node_modules"]
 }
