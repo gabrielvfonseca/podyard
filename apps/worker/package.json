@@ -1,0 +1,22 @@
+{
+  "name": "worker",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf .turbo dist node_modules"
+  },
+  "dependencies": {
+    "@frontal-labs/error": "^0.7.0",
+    "@podyard/sdk": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260301.0",
+    "@podyard/typescript-config": "workspace:*",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.0.0"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@podyard/cli",
+  "version": "0.1.0",
+  "description": "Podyard CLI",
+  "type": "module",
+  "bin": {
+    "podyard": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "git clean -xdf dist .turbo node_modules"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@clack/prompts": "^1.1.0",
+    "@frontal-labs/error": "^0.7.0",
+    "@incremental/sdk": "^0.1.0",
+    "@podyard/sdk": "workspace:*",
+    "commander": "^14.0.3",
+    "nypm": "^0.6.5"
+  },
+  "devDependencies": {
+    "@podyard/typescript-config": "workspace:*",
+    "@types/node": "^25.3.5",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}
