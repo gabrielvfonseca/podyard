@@ -1,8 +1,8 @@
 import { expect, test } from "@playwright/test";
 
-const APP = "http://localhost:3000";
-const WEB = "http://localhost:3001";
-const API = "http://localhost:3002";
+const APP = process.env.E2E_APP_URL ?? "http://localhost:3000";
+const WEB = process.env.E2E_WEB_URL ?? "http://localhost:3001";
+const API = process.env.E2E_API_URL ?? "http://localhost:3002";
 
 test.describe("cross-app", () => {
   test("apps are alive concurrently", async ({ request }) => {

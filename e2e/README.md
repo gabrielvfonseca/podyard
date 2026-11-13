@@ -7,34 +7,56 @@ Playwright end-to-end suite for podyard.
 ```
 e2e/
 ├── package.json
-├── playwright.config.ts   # chromium project, HTML + GitHub Actions reporters
-├── start.ts               # boots app(3000) + web(3001) + api(3002) concurrently
+├── playwright.config.ts   # chromium project, globalSetup/globalTeardown, HTML reporter
+├── global-setup.ts        # boots app(3000) + web(3001) + api(3002), waits for readiness
+├── global-teardown.ts     # kills the apps and surfaces any mid-run crashes
+├── shared-state.ts        # PID-file bridge between setup and teardown
+├── start.ts               # standalone app booter (manual use / CI parity)
 └── tests/
-    └── smoke.spec.ts      # homepage, 404, /health
+    ├── smoke.spec.ts      # homepage, 404, /health
+    └── health.spec.ts     # cross-app liveness + page-error check
 ```
 
-## Prerequisites
+## One-command run
 
-The suite runs against **already-running** Next.js servers. Either:
-
-```bash
-# Option A: build + start via the orchestration script
-bun build                 # from repo root
-bun e2e/start.ts          # from repo root (or: cd e2e && bun start)
-
-# Option B: docker parity stack
-docker compose -f infrastructure/docker/docker-compose.yml up --build
-```
-
-## Run
+The suite boots the apps itself via Playwright `globalSetup`, so a single
+command is enough:
 
 ```bash
 cd e2e
 bun install
-bunx playwright install --with-deps   # first time only
-bun test                              # headless
-bun test:headed                       # watch the browser
-bun test:report                       # open the HTML report
+bunx playwright install chromium    # first time only
+bun run test                        # boot apps → run headless → tear down
+```
+
+> Use `bun run test` (or `bunx playwright test`), **not** bare `bun test` —
+> the latter is bun's native runner, not Playwright.
+
+## Options
+
+- `bun run test:headed` — watch the browser.
+- `bun run test:report` — open the HTML report.
+- `E2E_NO_BOOT=1` — skip booting; assume the apps are already running
+  (useful with the docker parity stack or `bun start.ts`).
+- `E2E_PORT_APP` / `E2E_PORT_WEB` / `E2E_PORT_API` — override the ports
+  (defaults 3000 / 3001 / 3002).
+
+## Manual boot (parity / docker)
+
+If you prefer to start the servers yourself:
+
+```bash
+bun build                 # from repo root
+bun e2e/start.ts          # from repo root (or: cd e2e && bun run start)
+# then, with the apps up:
+E2E_NO_BOOT=1 bun run test
+```
+
+Or the docker parity stack:
+
+```bash
+docker compose -f infrastructure/docker/docker-compose.yml up --build
+E2E_NO_BOOT=1 bun run test
 ```
 
 ## Conventions
