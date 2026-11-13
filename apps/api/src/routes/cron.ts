@@ -1,6 +1,7 @@
+import type { Context } from "hono";
 import { database } from "@repo/database";
 
-export const GET = async () => {
+export const cron = async (c: Context) => {
   const newPage = await database.page.create({
     data: {
       name: "cron-temp",
@@ -13,5 +14,5 @@ export const GET = async () => {
     },
   });
 
-  return new Response("OK", { status: 200 });
+  return c.text("OK", 200);
 };

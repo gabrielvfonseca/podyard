@@ -1,20 +1,18 @@
+import type { Context } from "hono";
 import { analytics } from "@repo/analytics/server";
-import { clerkClient } from "@repo/auth/server";
-import { parseError } from "@repo/observability/error";
+import { database } from "@repo/database";
 import { log } from "@repo/observability/log";
-import type { Stripe } from "@repo/payments";
 import { stripe } from "@repo/payments";
-import { headers } from "next/headers";
-import { NextResponse } from "next/server";
+import type Stripe from "stripe";
 import { env } from "@/env";
 
 const getUserFromCustomerId = async (customerId: string) => {
-  const clerk = await clerkClient();
-  const users = await clerk.users.getUserList();
-
-  const user = users.data.find(
-    (currentUser) => currentUser.privateMetadata.stripeCustomerId === customerId
-  );
+  // With Better Auth, we query the database directly
+  const user = await database.user.findFirst({
+    where: {
+      stripeCustomerId: customerId,
+    },
+  });
 
   return user;
 };
@@ -61,15 +59,14 @@ const handleSubscriptionScheduleCanceled = async (
   });
 };
 
-export const POST = async (request: Request): Promise<Response> => {
+export const payments = async (c: Context): Promise<Response> => {
   if (!(stripe && env.STRIPE_WEBHOOK_SECRET)) {
-    return NextResponse.json({ message: "Not configured", ok: false });
+    return c.json({ message: "Not configured", ok: false }, 503);
   }
 
   try {
-    const body = await request.text();
-    const headerPayload = await headers();
-    const signature = headerPayload.get("stripe-signature");
+    const body = await c.req.text();
+    const signature = c.req.header("stripe-signature");
 
     if (!signature) {
       throw new Error("missing stripe-signature header");
@@ -95,15 +92,12 @@ export const POST = async (request: Request): Promise<Response> => {
       }
     }
 
-    await analytics?.shutdown();
-
-    return NextResponse.json({ result: event, ok: true });
+    return c.json({ result: event, ok: true });
   } catch (error) {
-    const message = parseError(error);
-
+    const message = error instanceof Error ? error.message : "Unknown error";
     log.error(message);
 
-    return NextResponse.json(
+    return c.json(
       {
         message: "something went wrong",
         ok: false,
