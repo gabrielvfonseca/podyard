@@ -7,6 +7,7 @@
 // biome-ignore lint/performance/noNamespaceImport: Sentry SDK convention
 import * as Sentry from "@sentry/nextjs";
 import { keys } from "./keys";
+import { beforeSend } from "./sentry";
 
 export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
   Sentry.init({
@@ -23,6 +24,9 @@ export const initializeSentry = (): ReturnType<typeof Sentry.init> =>
 
     // Capture local variables in stack traces for better debugging
     includeLocalVariables: true,
+
+    // Enrich events with scope/code/requestId from FrontalError instances
+    beforeSend,
 
     // Integrations for console logging
     integrations: [
