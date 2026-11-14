@@ -1,6 +1,5 @@
 import { neonConfig } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-serverless";
-import "server-only";
 import { WebSocket } from "ws";
 import { keys } from "./keys";
 import { account, page, session, user, verification } from "./schema";
