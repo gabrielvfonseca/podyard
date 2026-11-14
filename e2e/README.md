@@ -8,9 +8,10 @@ Playwright end-to-end suite for podyard.
 e2e/
 ├── package.json
 ├── playwright.config.ts   # chromium project, globalSetup/globalTeardown, HTML reporter
-├── global-setup.ts        # boots app(3000) + web(3001) + api(3002), waits for readiness
-├── global-teardown.ts     # kills the apps and surfaces any mid-run crashes
+├── global-setup.ts        # orchestrates boot via start-apps.cjs, waits for readiness
+├── global-teardown.ts     # kills the helper + apps, surfaces any mid-run crashes
 ├── shared-state.ts        # PID-file bridge between setup and teardown
+├── start-apps.cjs         # plain-CJS boot helper (spawns app/web/api, emits JSON events)
 ├── start.ts               # standalone app booter (manual use / CI parity)
 └── tests/
     ├── smoke.spec.ts      # homepage, 404, /health
@@ -32,6 +33,31 @@ bun run test                        # boot apps → run headless → tear down
 > Use `bun run test` (or `bunx playwright test`), **not** bare `bun test` —
 > the latter is bun's native runner, not Playwright.
 
+## Boot architecture
+
+`global-setup.ts` delegates app spawning to `start-apps.cjs`, a plain-CJS
+helper run via `spawnSync`.
+
+**Why a helper?** In Playwright's globalSetup context (Node 22, loaded
+in-process through `nodeModule.registerHooks`), async `spawn` fails with
+ENOENT for *every* binary — even `/bin/sh` with an absolute path — while
+`spawnSync` works reliably. The helper performs the actual async spawns from
+a plain Node context where they succeed.
+
+The helper:
+
+- spawns the three apps (app, web, api) with per-app args:
+  - **app** / **web** (Next.js): `bun --bun next start`
+  - **api** (Hono, compiled): `bun dist/index.js`
+- emits line-delimited JSON events on stdout (`ready`, `exit`, `spawn-error`)
+- persists its own PID so `global-teardown` can stop it and the apps
+
+**Important:** `SKIP_ENV_VALIDATION` must **not** be set in the helper's
+environment. Setting it causes `@t3-oss/env-nextjs` (used by app/web with
+`runtimeEnv: {}`) to return an empty object at runtime, making all
+`NEXT_PUBLIC_*` vars undefined and breaking sign-in (500). Without it,
+`.env.local` loads correctly and validation passes.
+
 ## Options
 
 - `bun run test:headed` — watch the browser.
@@ -40,6 +66,8 @@ bun run test                        # boot apps → run headless → tear down
   (useful with the docker parity stack or `bun start.ts`).
 - `E2E_PORT_APP` / `E2E_PORT_WEB` / `E2E_PORT_API` — override the ports
   (defaults 3000 / 3001 / 3002).
+- `E2E_BUN_PATH` — absolute path to the `bun` binary (the helper resolves
+  bun via `which bun` or falls back to `bun` on `PATH`).
 
 ## Manual boot (parity / docker)
 
