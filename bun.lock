@@ -21,6 +21,7 @@
       "name": "api",
       "dependencies": {
         "@better-auth/drizzle-adapter": "1.7.22",
+        "@frontal-labs/error": "^0.7.0",
         "@hono/node-server": "^1.14.0",
         "@podyard/analytics": "workspace:*",
         "@podyard/auth": "workspace:*",
@@ -173,6 +174,7 @@
       "name": "web",
       "dependencies": {
         "@arcjet/next": "1.2.0",
+        "@frontal-labs/error": "0.7.0",
         "@podyard/analytics": "workspace:*",
         "@podyard/design-system": "workspace:*",
         "@podyard/email": "workspace:*",
@@ -183,7 +185,6 @@
         "@podyard/rate-limit": "workspace:*",
         "@podyard/security": "workspace:*",
         "@podyard/seo": "workspace:*",
-        "@radix-ui/react-icons": "^1.3.2",
         "@rescale/nemo": "^2.1.1",
         "@sentry/nextjs": "^10.42.0",
         "@t3-oss/env-nextjs": "^0.13.10",
@@ -309,7 +310,6 @@
       "dependencies": {
         "@hookform/resolvers": "^5.2.2",
         "@podyard/observability": "workspace:*",
-        "@radix-ui/react-icons": "^1.3.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
         "cmdk": "^1.1.1",
@@ -428,10 +428,12 @@
       "name": "@podyard/observability",
       "version": "0.0.0",
       "dependencies": {
+        "@frontal-labs/error": "^0.7.0",
         "@logtail/next": "^0.3.1",
         "@sentry/nextjs": "^10.42.0",
         "@t3-oss/env-core": "^0.13.11",
         "@t3-oss/env-nextjs": "^0.13.10",
+        "@ulid/ulid": "^0.1.0",
         "react": "19.2.4",
         "server-only": "^0.0.1",
         "zod": "^4.3.6",
@@ -1442,8 +1444,6 @@
     "@radix-ui/react-form": ["@radix-ui/react-form@0.3.0", "", { "dependencies": { "@radix-ui/primitive": "1.2.0", "@radix-ui/react-compose-refs": "1.1.5", "@radix-ui/react-context": "1.3.0", "@radix-ui/react-id": "1.1.4", "@radix-ui/react-label": "2.1.17", "@radix-ui/react-primitive": "2.2.0" }, "peerDependencies": { "@types/react": "*", "@types/react-dom": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc", "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-KnmrCM27m7Jo1R8S6cFDPrEeq20Jfn5dqde0SZrJr2lVXlj6/QZSUCyFoYh1d8ti0uUrMNK5Lx6dUDuINT+f4Q=="],
 
     "@radix-ui/react-hover-card": ["@radix-ui/react-hover-card@1.2.1", "", { "dependencies": { "@radix-ui/primitive": "1.2.0", "@radix-ui/react-compose-refs": "1.1.5", "@radix-ui/react-context": "1.3.0", "@radix-ui/react-dismissable-layer": "1.2.1", "@radix-ui/react-focus-scope": "1.3.1", "@radix-ui/react-popper": "1.4.0", "@radix-ui/react-portal": "1.2.0", "@radix-ui/react-presence": "1.1.11", "@radix-ui/react-primitive": "2.2.0", "@radix-ui/react-use-controllable-state": "1.3.0" }, "peerDependencies": { "@types/react": "*", "@types/react-dom": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc", "react-dom": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react", "@types/react-dom"] }, "sha512-4QooHxgmpCKRjj1Pft+hETKidYcrbPKcVwMGtk2Oa5DcWY2IH1fHuQt9LG6q5hUQBBV2MhQxSvtx6B/C1xfiTw=="],
-
-    "@radix-ui/react-icons": ["@radix-ui/react-icons@1.3.2", "", { "peerDependencies": { "react": "^16.x || ^17.x || ^18.x || ^19.0.0 || ^19.0.0-rc" } }, "sha512-fyQIhGDhzfc9pK2kH6Pl9c4BDJGfMkPqkyIgYDthyNYoNg3wVhoJMMh19WS4Up/1KMPFVpNsT2q3WmXn2N1m6g=="],
 
     "@radix-ui/react-id": ["@radix-ui/react-id@1.1.1", "", { "dependencies": { "@radix-ui/react-use-layout-effect": "1.1.1" }, "peerDependencies": { "@types/react": "*", "react": "^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc" }, "optionalPeers": ["@types/react"] }, "sha512-kGkGegYIdQsOb4XjsfM97rXsiHaBwco+hFI66oO4s9LU+PLAC5oJ7khdOVFxkhsmlbpUqDAvXw11CluXP+jkHg=="],
 
