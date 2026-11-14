@@ -12,7 +12,6 @@ import {
   CarouselItem,
 } from "@podyard/design-system/components/ui/carousel";
 import type { Dictionary } from "@podyard/internationalization";
-import { User } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface TestimonialsProps {
@@ -51,7 +50,6 @@ export const Testimonials = ({ dictionary }: TestimonialsProps) => {
               {dictionary.web.home.testimonials.items.map((item) => (
                 <CarouselItem className="lg:basis-1/2" key={item.title}>
                   <div className="flex aspect-video h-full flex-col justify-between rounded-md bg-muted p-6 lg:col-span-2">
-                    <User className="h-8 w-8 stroke-1" />
                     <div className="flex flex-col gap-4">
                       <div className="flex flex-col">
                         <h3 className="text-xl tracking-tight">{item.title}</h3>

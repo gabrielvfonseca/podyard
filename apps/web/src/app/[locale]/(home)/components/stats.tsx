@@ -1,5 +1,4 @@
 import type { Dictionary } from "@podyard/internationalization";
-import { MoveDownLeft, MoveUpRight } from "lucide-react";
 
 interface StatsProps {
   dictionary: Dictionary;
@@ -26,11 +25,6 @@ export const Stats = ({ dictionary }: StatsProps) => (
                 className="flex flex-col justify-between gap-0 rounded-md border p-6"
                 key={item.title}
               >
-                {Number.parseFloat(item.delta) > 0 ? (
-                  <MoveUpRight className="mb-10 h-4 w-4 text-primary" />
-                ) : (
-                  <MoveDownLeft className="mb-10 h-4 w-4 text-destructive" />
-                )}
                 <h2 className="flex max-w-xl flex-row items-end gap-4 text-left font-regular text-4xl tracking-tighter">
                   {item.type === "currency" && "$"}
                   {new Intl.NumberFormat().format(

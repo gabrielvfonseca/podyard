@@ -1,5 +1,4 @@
 import { Button } from "@podyard/design-system/components/ui/button";
-import { Check, Minus, MoveRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { env } from "@/env";
 
@@ -27,10 +26,8 @@ const Pricing = () => (
               <span className="text-4xl">$40</span>
               <span className="text-muted-foreground text-sm"> / month</span>
             </p>
-            <Button asChild className="mt-8 gap-4" variant="outline">
-              <Link href={env.NEXT_PUBLIC_APP_URL}>
-                Try it <MoveRight className="h-4 w-4" />
-              </Link>
+            <Button asChild className="mt-8">
+              <Link href={env.NEXT_PUBLIC_APP_URL}>Try it</Link>
             </Button>
           </div>
           <div className="flex flex-col gap-2 px-3 py-1 md:px-6 md:py-4">
@@ -43,10 +40,8 @@ const Pricing = () => (
               <span className="text-4xl">$40</span>
               <span className="text-muted-foreground text-sm"> / month</span>
             </p>
-            <Button asChild className="mt-8 gap-4">
-              <Link href={env.NEXT_PUBLIC_APP_URL}>
-                Try it <MoveRight className="h-4 w-4" />
-              </Link>
+            <Button asChild className="mt-8">
+              <Link href={env.NEXT_PUBLIC_APP_URL}>Try it</Link>
             </Button>
           </div>
           <div className="flex flex-col gap-2 px-3 py-1 md:px-6 md:py-4">
@@ -59,10 +54,8 @@ const Pricing = () => (
               <span className="text-4xl">$40</span>
               <span className="text-muted-foreground text-sm"> / month</span>
             </p>
-            <Button asChild className="mt-8 gap-4" variant="outline">
-              <Link href="/contact">
-                Contact us <PhoneCall className="h-4 w-4" />
-              </Link>
+            <Button asChild className="mt-8" variant="outline">
+              <Link href="/contact">Contact us</Link>
             </Button>
           </div>
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">
@@ -74,39 +67,39 @@ const Pricing = () => (
           {/* New Line */}
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">SSO</div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           {/* New Line */}
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">
             AI Assistant
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Minus className="h-4 w-4 text-muted-foreground" />
+            <span className="text-muted-foreground">—</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           {/* New Line */}
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">
             Version Control
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Minus className="h-4 w-4 text-muted-foreground" />
+            <span className="text-muted-foreground">—</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           {/* New Line */}
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">
@@ -126,26 +119,26 @@ const Pricing = () => (
             Multiplayer Mode
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Minus className="h-4 w-4 text-muted-foreground" />
+            <span className="text-muted-foreground">—</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           {/* New Line */}
           <div className="col-span-3 px-3 py-4 lg:col-span-1 lg:px-6">
             Orchestration
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Minus className="h-4 w-4 text-muted-foreground" />
+            <span className="text-muted-foreground">—</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
           <div className="flex justify-center px-3 py-1 md:px-6 md:py-4">
-            <Check className="h-4 w-4 text-primary" />
+            <span className="text-primary">✓</span>
           </div>
         </div>
       </div>

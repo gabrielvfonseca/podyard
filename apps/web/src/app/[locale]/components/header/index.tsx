@@ -11,7 +11,7 @@ import {
   NavigationMenuTrigger,
 } from "@podyard/design-system/components/ui/navigation-menu";
 import type { Dictionary } from "@podyard/internationalization";
-import { Menu, MoveRight, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { env } from "@/env";
@@ -96,7 +96,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
                                 key={subItem.href}
                               >
                                 <span>{subItem.title}</span>
-                                <MoveRight className="h-4 w-4 text-muted-foreground" />
                               </NavigationMenuLink>
                             ))}
                           </div>
@@ -170,7 +169,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         }
                       >
                         <span className="text-lg">{item.title}</span>
-                        <MoveRight className="h-4 w-4 stroke-1 text-muted-foreground" />
                       </Link>
                     ) : (
                       <p className="text-lg">{item.title}</p>
@@ -184,7 +182,6 @@ export const Header = ({ dictionary }: HeaderProps) => {
                         <span className="text-muted-foreground">
                           {subItem.title}
                         </span>
-                        <MoveRight className="h-4 w-4 stroke-1" />
                       </Link>
                     ))}
                   </div>

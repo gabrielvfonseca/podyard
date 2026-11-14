@@ -7,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@podyard/design-system/components/ui/dropdown-menu";
-import { Languages } from "lucide-react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 
 const languages = [
@@ -51,7 +50,6 @@ export const LanguageSwitcher = () => {
           size="icon"
           variant="ghost"
         >
-          <Languages className="h-[1.2rem] w-[1.2rem]" />
           <span className="sr-only">Switch language</span>
         </Button>
       </DropdownMenuTrigger>

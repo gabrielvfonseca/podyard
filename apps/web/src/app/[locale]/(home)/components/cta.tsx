@@ -1,6 +1,5 @@
 import { Button } from "@podyard/design-system/components/ui/button";
 import type { Dictionary } from "@podyard/internationalization";
-import { MoveRight, PhoneCall } from "lucide-react";
 import Link from "next/link";
 import { env } from "@/env";
 
@@ -21,16 +20,12 @@ export const CTA = ({ dictionary }: CTAProps) => (
           </p>
         </div>
         <div className="flex flex-row gap-4">
-          <Button asChild className="gap-4" variant="outline">
-            <Link href="/contact">
-              {dictionary.web.global.primaryCta}{" "}
-              <PhoneCall className="h-4 w-4" />
-            </Link>
+          <Button asChild variant="outline">
+            <Link href="/contact">{dictionary.web.global.primaryCta}</Link>
           </Button>
-          <Button asChild className="gap-4">
+          <Button asChild>
             <Link href={env.NEXT_PUBLIC_APP_URL}>
-              {dictionary.web.global.secondaryCta}{" "}
-              <MoveRight className="h-4 w-4" />
+              {dictionary.web.global.secondaryCta}
             </Link>
           </Button>
         </div>

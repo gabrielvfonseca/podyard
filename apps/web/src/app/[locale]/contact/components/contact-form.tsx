@@ -12,7 +12,7 @@ import {
 import { cn } from "@podyard/design-system/lib/utils";
 import type { Dictionary } from "@podyard/internationalization";
 import { format } from "date-fns";
-import { CalendarIcon, Check, MoveRight } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { useState } from "react";
 
 interface ContactFormProps {
@@ -42,7 +42,7 @@ export const ContactForm = ({ dictionary }: ContactFormProps) => {
                 className="flex flex-row items-start gap-6 text-left"
                 key={benefit.title}
               >
-                <Check className="mt-2 h-4 w-4 text-primary" />
+                <span className="mt-2 text-primary">✓</span>
                 <div className="flex flex-col gap-1">
                   <p>{benefit.title}</p>
                   <p className="text-muted-foreground text-sm">
@@ -106,9 +106,8 @@ export const ContactForm = ({ dictionary }: ContactFormProps) => {
                 <Input id="picture" type="file" />
               </div>
 
-              <Button className="w-full gap-4">
-                {dictionary.web.contact.hero.form.cta}{" "}
-                <MoveRight className="h-4 w-4" />
+              <Button className="w-full">
+                {dictionary.web.contact.hero.form.cta}
               </Button>
             </div>
           </div>

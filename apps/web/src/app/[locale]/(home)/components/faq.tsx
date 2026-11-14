@@ -6,7 +6,6 @@ import {
 } from "@podyard/design-system/components/ui/accordion";
 import { Button } from "@podyard/design-system/components/ui/button";
 import type { Dictionary } from "@podyard/internationalization";
-import { PhoneCall } from "lucide-react";
 import Link from "next/link";
 
 interface FAQProps {
@@ -28,11 +27,8 @@ export const FAQ = ({ dictionary }: FAQProps) => (
               </p>
             </div>
             <div className="">
-              <Button asChild className="gap-4" variant="outline">
-                <Link href="/contact">
-                  {dictionary.web.home.faq.cta}{" "}
-                  <PhoneCall className="h-4 w-4" />
-                </Link>
+              <Button asChild variant="outline">
+                <Link href="/contact">{dictionary.web.home.faq.cta}</Link>
               </Button>
             </div>
           </div>
