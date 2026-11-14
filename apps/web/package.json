@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@arcjet/next": "1.2.0",
-    "@radix-ui/react-icons": "^1.3.2",
+    "@frontal-labs/error": "0.7.0",
     "@podyard/analytics": "workspace:*",
     "@podyard/design-system": "workspace:*",
     "@podyard/email": "workspace:*",

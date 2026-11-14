@@ -1,5 +1,9 @@
 import { internationalizationMiddleware } from "@podyard/internationalization/proxy";
-import { parseError } from "@podyard/observability/error";
+import {
+  getRequestId,
+  REQUEST_ID_HEADER,
+  toPublicResponse,
+} from "@podyard/observability";
 import { secure } from "@podyard/security";
 import {
   noseconeOptions,
@@ -7,12 +11,7 @@ import {
   securityMiddleware,
 } from "@podyard/security/proxy";
 import { createNEMO } from "@rescale/nemo";
-import {
-  type NextFetchEvent,
-  type NextProxy,
-  type NextRequest,
-  NextResponse,
-} from "next/server";
+import type { NextFetchEvent, NextProxy, NextRequest } from "next/server";
 import { env } from "@/env";
 
 export const config = {
@@ -44,8 +43,9 @@ const arcjetMiddleware = async (request: NextRequest) => {
       request
     );
   } catch (error) {
-    const message = parseError(error);
-    return NextResponse.json({ error: message }, { status: 403 });
+    const response = toPublicResponse(error, request);
+    response.headers.set(REQUEST_ID_HEADER, getRequestId(request));
+    return response;
   }
 };
 
