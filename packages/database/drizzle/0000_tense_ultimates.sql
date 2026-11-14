@@ -53,7 +53,7 @@ CREATE TABLE "Verification" (
 	"expiresAt" timestamp with time zone NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
 	"updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-	"userId" text NOT NULL
+	"userId" text
 );
 --> statement-breakpoint
 ALTER TABLE "Account" ADD CONSTRAINT "Account_userId_User_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."User"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint

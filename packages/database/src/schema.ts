@@ -64,9 +64,12 @@ export const verification = pgTable("Verification", {
   expiresAt: timestamp("expiresAt", { withTimezone: true }).notNull(),
   createdAt: createdAt(),
   updatedAt: updatedAt(),
-  userId: text("userId")
-    .notNull()
-    .references(() => user.id, { onDelete: "cascade" }),
+  // Better Auth only writes this once a user exists; verification rows are
+  // created before login, so it must be nullable (schema is enforced by
+  // Better Auth's runtime migration check, not by a NOT NULL constraint).
+  userId: text("userId").references(() => user.id, {
+    onDelete: "cascade",
+  }),
 });
 
 export const page = pgTable("Page", {
