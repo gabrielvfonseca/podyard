@@ -3,6 +3,7 @@
   "pages": [
     "introduction",
     "quickstart",
-    "development"
+    "development",
+    "error-handling"
   ]
 }

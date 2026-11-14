@@ -1,0 +1,173 @@
+---
+title: Error Handling
+description: How errors are created, transported, and rendered across the Podyard monorepo.
+---
+
+Podyard uses [`@frontal-labs/error`](https://www.npmjs.com/package/@frontal-labs/error) as its error foundation. Every error that crosses a boundary — SDK, API, Worker, or UI — carries a stable `scope` and `code`, a developer-facing message, and approved public text for end users.
+
+## Principles
+
+- **One error class.** `FrontalError` (or the SDK's `PodyardError`, which extends it) is the only error class thrown across the monorepo.
+- **Branch on `scope` + `code`, never on message text.** Messages are human-readable and may change; codes are stable contracts.
+- **Separate public and developer text.** `error.message` is for logs and Sentry. `error.public.message` is what clients see. Only `public.*` reaches the wire.
+- **Every request has an ID.** The `x-podyard-id` header carries a unique request ID (generated via `crypto.randomUUID`) so logs, Sentry events, and responses can be correlated.
+
+## Error codes
+
+### SDK (`@podyard/sdk`)
+
+Scope: `"podyard"`
+
+| Code | Meaning |
+|---|---|
+| `missing_api_key` | `PODYARD_API_KEY` is absent |
+| `network_failure` | The underlying `fetch` rejected |
+| `api_error` | The API returned an unexpected non-2xx response |
+| `invalid_json` | The response body could not be parsed as JSON |
+| `auth_failed` | The API returned 401 or 403 |
+| `rate_limited` | The API returned 429 |
+| `not_found` | The API returned 404 |
+| `sandbox_not_found` | A specific sandbox resource was not found |
+| `sandbox_unavailable` | A specific sandbox resource is in an unavailable state |
+
+### Contact form (`apps/web`)
+
+Scope: `"contact"`
+
+| Code | Meaning |
+|---|---|
+| `invalid_email` | The email address failed validation |
+| `message_too_short` | The message body is below the minimum length |
+| `submission_failed` | The outbound email could not be sent |
+
+### API (`apps/api`)
+
+Scope: `"payments"` (and other route-specific scopes as needed)
+
+| Code | Meaning |
+|---|---|
+| `missing_signature` | The Stripe webhook signature header was absent |
+
+### Worker (`apps/worker`)
+
+Scope: `"worker"`
+
+| Code | Meaning |
+|---|---|
+| `internal` | An unhandled error inside the Worker |
+
+## Building errors
+
+### SDK
+
+```ts
+import { PodyardError, PodyardErrorCodes } from "@podyard/sdk";
+
+throw new PodyardError("Sandbox sbx_123 is in a failed state", {
+  code: PodyardErrorCodes.SANDBOX_UNAVAILABLE,
+  statusCode: 503,
+  public: {
+    message: "The sandbox is temporarily unavailable.",
+    hint: "Try again in a few seconds.",
+  },
+});
+```
+
+### Direct `FrontalError`
+
+```ts
+import { FrontalError } from "@frontal-labs/error";
+
+throw new FrontalError("Stripe signature verification failed", {
+  scope: "payments",
+  code: "missing_signature",
+  statusCode: 400,
+  public: { message: "Webhook signature is missing or invalid." },
+});
+```
+
+### Local error factories
+
+For app-specific scopes, define a local const object and a `raise` helper:
+
+```ts
+const ContactErrorCodes = {
+  INVALID_EMAIL: "invalid_email",
+  MESSAGE_TOO_SHORT: "message_too_short",
+  SUBMISSION_FAILED: "submission_failed",
+} as const;
+
+type ContactErrorCode = (typeof ContactErrorCodes)[keyof typeof ContactErrorCodes];
+
+const raise = (code: ContactErrorCode, publicMessage: string, developerMessage: string) =>
+  new FrontalError(developerMessage, {
+    scope: "contact",
+    code,
+    statusCode: 400,
+    public: { message: publicMessage },
+  });
+```
+
+## HTTP responses
+
+Use `toPublicResponse` from `@podyard/observability` — never build error JSON by hand:
+
+```ts
+import { toPublicResponse, getRequestId, REQUEST_ID_HEADER } from "@podyard/observability";
+
+export const catch = (error: unknown) => {
+  const response = toPublicResponse(error, request);
+  response.headers.set(REQUEST_ID_HEADER, getRequestId(request));
+  return response;
+};
+```
+
+The response body contains only public fields:
+
+```json
+{
+  "error": {
+    "message": "The sandbox is temporarily unavailable.",
+    "scope": "podyard",
+    "code": "sandbox_unavailable"
+  }
+}
+```
+
+Untagged errors (plain `Error` instances without a `public` field) produce a generic 500:
+
+```json
+{ "error": { "message": "An error occurred" } }
+```
+
+## CLI output
+
+Use `formatError` from `@frontal-labs/error/format` for terminal output. It renders a styled frame with the developer message, code, scope, and optional `hint`/`fix`/`link` sections.
+
+## Sentry
+
+The `beforeSend` hook from `@podyard/observability` enriches events raised from `FrontalError` instances with:
+
+- `tags["error.scope"]` — the error's scope
+- `tags["error.code"]` — the error's stable code
+- `tags["request.id"]` — the request ID, when present
+- `event.message` — set to `podyard/<code>` so groups are stable
+
+Non-`FrontalError` events pass through unchanged. The hook never drops events.
+
+## Request IDs
+
+Every request that enters the system gets a `x-podyard-id` header:
+
+- **Web (Next.js):** the proxy middleware generates or reuses the ID and attaches it to all outgoing and incoming responses.
+- **API (Hono):** middleware reads or generates the ID and sets it on the response.
+- **Worker:** the `withErrorHandling` wrapper generates an ID if absent and sets it on error responses.
+
+Use `getRequestId(request)` to read or generate the ID:
+
+```ts
+import { getRequestId, REQUEST_ID_HEADER } from "@podyard/observability";
+
+const id = getRequestId(request); // reads x-podyard-id or generates a new one
+response.headers.set(REQUEST_ID_HEADER, id);
+```

@@ -1,4 +1,5 @@
-import { getMessage } from "@frontal-labs/error";
+import { FrontalError, isFrontalError } from "@frontal-labs/error";
+import { type ErrorResponse, errorResponse } from "@frontal-labs/error/server";
 import { Podyard } from "@podyard/sdk";
 
 export interface Env {
@@ -6,8 +7,43 @@ export interface Env {
   PODYARD_BASE_URL?: string;
 }
 
+const WORKER_SCOPE = "worker";
+
+/**
+ * Build a `Response` from an `ErrorResponse` produced by `errorResponse`.
+ */
+const toResponse = (result: ErrorResponse): Response =>
+  new Response(result.body, {
+    status: result.status,
+    headers: result.headers,
+  });
+
+/**
+ * Wrap a handler in a catch-all that converts any thrown value into a
+ * standardized error `Response` via `@frontal-labs/error/server`.
+ */
+const withErrorHandling =
+  (handler: (request: Request) => Promise<Response>) =>
+  async (request: Request): Promise<Response> => {
+    try {
+      return await handler(request);
+    } catch (error) {
+      // Narrow to a recognized FrontalError; fall back to a generic 500
+      // for untagged errors so we never leak developer details.
+      if (isFrontalError(error)) {
+        return toResponse(errorResponse(error));
+      }
+
+      return toResponse({
+        status: 500,
+        body: JSON.stringify({ error: { message: "An error occurred" } }),
+        headers: { "content-type": "application/json" },
+      });
+    }
+  };
+
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  fetch: withErrorHandling(async (request: Request) => {
     const url = new URL(request.url);
 
     if (url.pathname === "/health") {
@@ -18,29 +54,26 @@ export default {
     }
 
     if (url.pathname === "/sandboxes") {
-      if (!env.PODYARD_API_KEY) {
-        return Response.json(
-          { error: "PODYARD_API_KEY not configured" },
-          { status: 500 }
-        );
-      }
+      const env = request.cf as Env | undefined;
 
-      try {
-        const client = new Podyard({
-          apiKey: env.PODYARD_API_KEY,
-          baseUrl: env.PODYARD_BASE_URL,
+      if (!env?.PODYARD_API_KEY) {
+        throw new FrontalError("PODYARD_API_KEY is not configured", {
+          scope: WORKER_SCOPE,
+          code: "missing_api_key",
+          statusCode: 500,
+          public: { message: "Worker is misconfigured." },
         });
-
-        const sandboxes = await client.sandboxes.list();
-        return Response.json({ sandboxes });
-      } catch (err) {
-        return Response.json(
-          { error: getMessage(err) ?? "Internal error" },
-          { status: 500 }
-        );
       }
+
+      const client = new Podyard({
+        apiKey: env.PODYARD_API_KEY,
+        baseUrl: env.PODYARD_BASE_URL,
+      });
+
+      const sandboxes = await client.sandboxes.list();
+      return Response.json({ sandboxes });
     }
 
     return new Response("Not found", { status: 404 });
-  },
+  }),
 };
