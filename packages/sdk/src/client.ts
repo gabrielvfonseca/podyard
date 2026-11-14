@@ -1,4 +1,5 @@
-import { PodyardError } from "./errors";
+import type { PodyardErrorCode } from "./error-codes";
+import { PodyardError, PodyardErrorCodes } from "./errors";
 import type {
   CreateSandboxInput,
   PodyardClientOptions,
@@ -14,7 +15,11 @@ export class Podyard {
 
   constructor(options: PodyardClientOptions) {
     if (!options.apiKey) {
-      throw new PodyardError("Podyard apiKey is required");
+      throw new PodyardError("Podyard apiKey is required", {
+        code: PodyardErrorCodes.MISSING_API_KEY,
+        statusCode: 500,
+        public: { message: "A Podyard API key is required." },
+      });
     }
     this.apiKey = options.apiKey;
     this.baseUrl = (
@@ -28,7 +33,14 @@ export class Podyard {
   static fromEnv(env: NodeJS.ProcessEnv = process.env): Podyard {
     const apiKey = env.PODYARD_API_KEY;
     if (!apiKey) {
-      throw new PodyardError("Missing PODYARD_API_KEY environment variable");
+      throw new PodyardError("Missing PODYARD_API_KEY environment variable", {
+        code: PodyardErrorCodes.MISSING_API_KEY,
+        statusCode: 500,
+        public: {
+          message:
+            "Podyard is not configured. Set the PODYARD_API_KEY environment variable.",
+        },
+      });
     }
     return new Podyard({ apiKey, baseUrl: env.PODYARD_BASE_URL });
   }
@@ -70,7 +82,14 @@ export class Podyard {
         },
       });
     } catch (cause) {
-      throw new PodyardError("Network request failed", { cause });
+      throw new PodyardError("Network request failed", {
+        code: PodyardErrorCodes.NETWORK_FAILURE,
+        statusCode: 502,
+        cause,
+        public: {
+          message: "Could not reach the Podyard API. Please try again.",
+        },
+      });
     }
 
     if (!response.ok) {
@@ -80,9 +99,18 @@ export class Podyard {
       } catch {
         detail = response.statusText;
       }
+
       throw new PodyardError(
         `Podyard API error ${response.status}: ${detail || response.statusText}`,
-        { status: response.status }
+        {
+          code: this.mapApiErrorCode(response.status),
+          statusCode: response.status,
+          cause: detail ? new Error(detail) : undefined,
+          public: {
+            message: "The Podyard API returned an error. Please try again.",
+            hint: `Status ${response.status}`,
+          },
+        }
       );
     }
 
@@ -97,9 +125,25 @@ export class Podyard {
       return JSON.parse(text) as T;
     } catch (cause) {
       throw new PodyardError("Invalid JSON response from Podyard API", {
+        code: PodyardErrorCodes.INVALID_JSON,
+        statusCode: 502,
         cause,
+        public: { message: "Received an unexpected response from Podyard." },
       });
     }
+  }
+
+  private mapApiErrorCode(status: number): PodyardErrorCode {
+    if (status === 401 || status === 403) {
+      return PodyardErrorCodes.AUTH_FAILED;
+    }
+    if (status === 404) {
+      return PodyardErrorCodes.NOT_FOUND;
+    }
+    if (status === 429) {
+      return PodyardErrorCodes.RATE_LIMITED;
+    }
+    return PodyardErrorCodes.API_ERROR;
   }
 }
 

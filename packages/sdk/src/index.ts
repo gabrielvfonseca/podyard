@@ -1,5 +1,10 @@
 export { default, Podyard } from "./client";
-export { PodyardError } from "./errors";
+export type { PodyardErrorCode, PodyardErrorOptions } from "./errors";
+export {
+  PODYARD_ERROR_SCOPE,
+  PodyardError,
+  PodyardErrorCodes,
+} from "./errors";
 export type {
   CreateSandboxInput,
   PodyardClientOptions,
