@@ -1,4 +1,5 @@
-import { getMessage } from "@frontal-labs/error";
+import { getMessage, isError } from "@frontal-labs/error";
+import { formatError } from "@frontal-labs/error/format";
 import { Podyard } from "@podyard/sdk";
 import { Command } from "commander";
 
@@ -24,12 +25,15 @@ program
       const sandboxes = await client.sandboxes.list();
       console.log(JSON.stringify(sandboxes, null, 2));
     } catch (err) {
-      console.error(getMessage(err) ?? "Unknown error");
+      // formatError renders a styled terminal frame for FrontalError
+      // instances (with hint/fix/link sections). Non-error values are
+      // stringified via getMessage.
+      console.error(isError(err) ? formatError(err) : getMessage(err));
       process.exitCode = 1;
     }
   });
 
 program.parseAsync(process.argv).catch((err) => {
-  console.error(getMessage(err) ?? "Unknown error");
+  console.error(isError(err) ? formatError(err) : getMessage(err));
   process.exit(1);
 });

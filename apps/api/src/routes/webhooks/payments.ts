@@ -1,3 +1,4 @@
+import { FrontalError } from "@frontal-labs/error";
 import { analytics } from "@podyard/analytics/server";
 import { database, user as users } from "@podyard/database";
 import { log } from "@podyard/observability/log";
@@ -70,7 +71,12 @@ export const payments = async (c: Context): Promise<Response> => {
     const signature = c.req.header("stripe-signature");
 
     if (!signature) {
-      throw new Error("missing stripe-signature header");
+      throw new FrontalError("missing stripe-signature header", {
+        scope: "payments",
+        code: "missing_signature",
+        statusCode: 400,
+        public: { message: "Missing stripe-signature header." },
+      });
     }
 
     const event = stripe.webhooks.constructEvent(

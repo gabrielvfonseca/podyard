@@ -12,6 +12,7 @@
     "typecheck": "tsc --noEmit --emitDeclarationOnly false"
   },
   "dependencies": {
+    "@frontal-labs/error": "^0.7.0",
     "@better-auth/drizzle-adapter": "1.7.22",
     "@hono/node-server": "^1.14.0",
     "@podyard/analytics": "workspace:*",
