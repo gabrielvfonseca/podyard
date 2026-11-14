@@ -17,7 +17,11 @@ test.describe("web", () => {
   test("marketing homepage renders", async ({ page }) => {
     await page.goto(`${WEB}/`);
     await expect(page.locator("main, h1, h2").first()).toBeVisible();
-    await expect(page.locator("footer")).toBeVisible();
+    // The web Footer renders a <section>, not a semantic <footer> element.
+    // Target it by its distinctive tagline text.
+    await expect(
+      page.getByText("This is the start of something new.")
+    ).toBeVisible();
   });
 
   test("unknown route returns 404", async ({ page }) => {

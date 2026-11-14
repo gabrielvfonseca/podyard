@@ -22,7 +22,14 @@ test.describe("cross-app", () => {
     page.on("pageerror", (error) => pageErrors.push(error.message));
 
     await page.goto(`${WEB}/`);
-    await page.waitForLoadState("networkidle");
+    // Wait for the main content to be visible rather than networkidle.
+    // The page loads fonts and testimonial images that can keep the
+    // network busy in headless, so networkidle is unreliable here.
+    await expect(page.locator("h1, h2").first()).toBeVisible({
+      timeout: 15_000,
+    });
+    // Give React a moment to settle and surface any async page errors.
+    await page.waitForTimeout(1000);
 
     expect(pageErrors).toHaveLength(0);
   });
