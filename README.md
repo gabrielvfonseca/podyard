@@ -20,18 +20,19 @@ This is a [Turborepo](https://turborepo.com) monorepo. The platform is split int
 | `web`        | Marketing website and public docs landing (`/pricing`, `/contact`)     | 3001   |
 | `app`        | User dashboard (auth, organization pages, webhooks)                    | 3000   |
 | `api`        | HTTP API and Stripe webhooks (consumed by the CLI and SDKs)            | 3002   |
-| `docs`       | [Mintlify](https://mintlify.com)-based documentation                   | 3004   |
-| `cli`        | The `podyard` command-line interface (stub — not yet implemented)       | —      |
-| `studio`     | Development-only studio app (stub)                                      | —      |
+| `docs`       | [fumadocs](https://fumadocs.vercel.app)-based documentation            | 3004   |
+| `cli`        | The `podyard` command-line interface (commander-based)                 | —      |
+| `studio`     | Development-only Drizzle Studio wrapper                                 | —      |
 | `storybook`  | Storybook for the shared design system                                  | —      |
+| `worker`     | Cloudflare Worker (`wrangler`), sandbox proxy + health endpoint         | —      |
 
 ### `packages/`
 
 Shared libraries consumed by the apps:
 
 - `@podyard/analytics` — event tracking (PostHog / GA)
-- `@podyard/auth` — Clerk-based authentication
-- `@podyard/database` — Prisma schema and client
+- `@podyard/auth` — Better Auth-based authentication
+- `@podyard/database` — Drizzle schema and client
 - `@podyard/design-system` — shared React/UI components (shadcn-based)
 - `@podyard/email` — transactional email via Resend
 - `@podyard/feature-flags` — feature flag client
@@ -40,7 +41,7 @@ Shared libraries consumed by the apps:
 - `@podyard/observability` — Sentry + Better Stack wiring
 - `@podyard/payments` — Stripe integration (subscriptions, metering)
 - `@podyard/rate-limit` — request rate limiting
-- `@podyard/sdk` — Podyard SDK (stub — not yet implemented)
+- `@podyard/sdk` — Podyard SDK (client, errors, types; `tsup` build)
 - `@podyard/security` — Arcjet + shared security helpers
 - `@podyard/seo` — metadata / sitemap helpers
 - `@podyard/typescript-config` — shared `tsconfig` presets
@@ -54,7 +55,9 @@ Shared libraries consumed by the apps:
 - `turbo/` — Turborepo configuration and generators
 - `deploy/` and `infrastructure/` — deployment and infrastructure definitions
 - `skills/` — agent skill definitions for working on this codebase
-- `scripts/` — root-level maintenance scripts (e.g. dependency updates)
+
+Maintenance scripts (e.g. `bump-deps`) live in the root `package.json` rather
+than a dedicated `scripts/` directory.
 
 ## Getting started
 
@@ -90,25 +93,27 @@ inside each app and fill in the values before running locally.
 | `bun run check`        | Lint and format check (Ultracite / Biome)             |
 | `bun run fix`          | Auto-fix lint and formatting issues                   |
 | `bun run typecheck`    | Type-check all packages (per-app script)              |
-| `bun run migrate`      | Run a Prisma dev migration                            |
-| `bun run migrate:deploy` | Run a Prisma production migration                  |
-| `bun run db:push`      | Push the Prisma schema to the database (no migration) |
+| `bun run migrate`      | Generate and run a Drizzle migration                  |
+| `bun run migrate:deploy` | Run a Drizzle production migration                 |
+| `bun run db:push`      | Push the Drizzle schema to the database (no migration)|
 
 ## Documentation
 
-The Mintlify docs live in [`apps/docs`](apps/docs). To develop them locally, follow
-the [Mintlify development guide](https://mintlify.com/docs/development).
+The docs live in [`apps/docs`](apps/docs), built on
+[fumadocs](https://fumadocs.vercel.app). Run `bun run dev --filter=docs` to develop
+them locally on port 3004.
 
 ## Status
 
 This repository is the **hosted platform** for the Podyard sandbox engine. The engine
 itself (sandbox creation, exec, filesystem, snapshot, fork, destroy) is implemented in
-[frontal-labs/sandbox](https://github.com/frontal-labs/sandbox). Several parts of this
-platform are still in progress:
+[frontal-labs/sandbox](https://github.com/frontal-labs/sandbox). The platform is
+largely implemented; the remaining development-only pieces are:
 
-- `apps/cli` — the `podyard` CLI is a stub and is not yet implemented.
-- `packages/sdk` — the Podyard SDK is a stub and is not yet implemented.
-- `apps/studio` — a development-only studio app, not part of the shipped product.
+- `apps/studio` — a development-only Drizzle Studio wrapper, not part of the shipped
+  product.
+- `apps/worker` — a Cloudflare Worker that proxies sandbox requests; wire up
+  `PODYARD_API_KEY` / `PODYARD_BASE_URL` before deploying.
 
 See [NOTICE.md](NOTICE.md) for the attribution of the engine and its license.
 
